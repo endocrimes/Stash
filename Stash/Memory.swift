@@ -58,6 +58,11 @@ public class Memory {
     }
     
     public func removeObjectForKey(key: String) {
+        self.lock()
+        objects[key] = nil
+        dates[key] = nil
+        costs[key] = nil
+        self.unlock()
     }
     
     public func trimBeforeDate(date: NSDate) {
