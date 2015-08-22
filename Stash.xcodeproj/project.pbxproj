@@ -10,6 +10,11 @@
 		65EB83A31B87C6DE009D3FE4 /* Stash.h in Headers */ = {isa = PBXBuildFile; fileRef = 65EB83A21B87C6DE009D3FE4 /* Stash.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		65EB83AA1B87C6DE009D3FE4 /* Stash.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65EB839F1B87C6DE009D3FE4 /* Stash.framework */; };
 		65EB83AF1B87C6DE009D3FE4 /* StashTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65EB83AE1B87C6DE009D3FE4 /* StashTests.swift */; };
+		65EB83BA1B87C6E8009D3FE4 /* Stash.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65EB83B91B87C6E8009D3FE4 /* Stash.swift */; };
+		65EB83BE1B87C6F3009D3FE4 /* Disk.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65EB83BD1B87C6F3009D3FE4 /* Disk.swift */; };
+		65EB83C01B87C6FF009D3FE4 /* Memory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65EB83BF1B87C6FF009D3FE4 /* Memory.swift */; };
+		65EB83C21B87C7B8009D3FE4 /* DiskTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65EB83C11B87C7B8009D3FE4 /* DiskTests.swift */; };
+		65EB83C41B87C7BE009D3FE4 /* MemoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65EB83C31B87C7BE009D3FE4 /* MemoryTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +34,11 @@
 		65EB83A91B87C6DE009D3FE4 /* StashTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StashTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		65EB83AE1B87C6DE009D3FE4 /* StashTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StashTests.swift; sourceTree = "<group>"; };
 		65EB83B01B87C6DE009D3FE4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		65EB83B91B87C6E8009D3FE4 /* Stash.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stash.swift; sourceTree = "<group>"; };
+		65EB83BD1B87C6F3009D3FE4 /* Disk.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Disk.swift; sourceTree = "<group>"; };
+		65EB83BF1B87C6FF009D3FE4 /* Memory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Memory.swift; sourceTree = "<group>"; };
+		65EB83C11B87C7B8009D3FE4 /* DiskTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiskTests.swift; sourceTree = "<group>"; };
+		65EB83C31B87C7BE009D3FE4 /* MemoryTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemoryTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +82,9 @@
 			isa = PBXGroup;
 			children = (
 				65EB83A21B87C6DE009D3FE4 /* Stash.h */,
+				65EB83B91B87C6E8009D3FE4 /* Stash.swift */,
+				65EB83BD1B87C6F3009D3FE4 /* Disk.swift */,
+				65EB83BF1B87C6FF009D3FE4 /* Memory.swift */,
 				65EB83A41B87C6DE009D3FE4 /* Info.plist */,
 			);
 			path = Stash;
@@ -81,6 +94,8 @@
 			isa = PBXGroup;
 			children = (
 				65EB83AE1B87C6DE009D3FE4 /* StashTests.swift */,
+				65EB83C11B87C7B8009D3FE4 /* DiskTests.swift */,
+				65EB83C31B87C7BE009D3FE4 /* MemoryTests.swift */,
 				65EB83B01B87C6DE009D3FE4 /* Info.plist */,
 			);
 			path = StashTests;
@@ -142,6 +157,7 @@
 		65EB83961B87C6DE009D3FE4 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Rocket Apps";
 				TargetAttributes = {
@@ -193,6 +209,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				65EB83C01B87C6FF009D3FE4 /* Memory.swift in Sources */,
+				65EB83BE1B87C6F3009D3FE4 /* Disk.swift in Sources */,
+				65EB83BA1B87C6E8009D3FE4 /* Stash.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -200,6 +219,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				65EB83C41B87C7BE009D3FE4 /* MemoryTests.swift in Sources */,
+				65EB83C21B87C7B8009D3FE4 /* DiskTests.swift in Sources */,
 				65EB83AF1B87C6DE009D3FE4 /* StashTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -307,6 +328,7 @@
 		65EB83B41B87C6DE009D3FE4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -317,12 +339,14 @@
 				PRODUCT_BUNDLE_IDENTIFIER = co.rocketapps.Stash;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		65EB83B51B87C6DE009D3FE4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
