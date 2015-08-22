@@ -13,6 +13,9 @@ public typealias MemoryCacheObjectBlock = (cache: Memory, key: String, object: N
 
 
 public class Memory {
+    
+    public var maximumCost: Int?
+    
     private let concurrentQueue: dispatch_queue_t = dispatch_queue_create("com.rocketapps.stash.memory", DISPATCH_QUEUE_CONCURRENT)
     private let semaphore: dispatch_semaphore_t = dispatch_semaphore_create(1)
     
@@ -27,7 +30,13 @@ public class Memory {
     
     public func setObject(object: NSData?, forKey: String, cost: Int = 0) {
         if let _ = object {
+            let now = NSDate()
             
+            self.lock()
+            objects[forKey] = object
+            dates[forKey] = now
+            costs[forKey] = cost
+            self.unlock()
         }
         else {
             removeObjectForKey(forKey)
