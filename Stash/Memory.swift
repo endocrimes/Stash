@@ -15,12 +15,16 @@ public typealias MemoryCacheObjectBlock = (cache: Memory, key: String, object: N
 public class Memory {
     private let concurrentQueue: dispatch_queue_t = dispatch_queue_create("com.rocketapps.stash.memory", DISPATCH_QUEUE_CONCURRENT)
     
+    private var objects: [String : NSData] = [String : NSData]()
+    private var dates: [String : NSDate] = [String : NSDate]()
+    private var costs: [String : Int] = [String : Int]()
+    
     init() {
     }
     
     // MARK - Synchronous Methods
     
-    public func setObject(object: NSData?, forKey: String) {
+    public func setObject(object: NSData?, forKey: String, cost: Int = 0) {
         if let _ = object {
             
         }
@@ -53,7 +57,7 @@ public class Memory {
     
     // MARK - Asynchronous Methods
     
-    public func setObject(object: NSData?, forKey: String, completionHandler: MemoryCacheBlock?) {
+    public func setObject(object: NSData?, forKey: String, cost: Int = 0, completionHandler: MemoryCacheBlock?) {
         async { [weak self] in
             guard let strongSelf = self else { return }
             
