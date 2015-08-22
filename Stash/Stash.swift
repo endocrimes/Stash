@@ -14,10 +14,12 @@ public typealias CacheObjectBlock = (cache: Stash, key: String, object: NSData?)
 public class Stash {
     public let memoryCache: Memory
     public let diskCache: Disk
+    public let name: String
     
     private let concurrentQueue: dispatch_queue_t = dispatch_queue_create("com.rocketapps.stash", DISPATCH_QUEUE_CONCURRENT)
     
     public init(name: String, rootPath: String) {
+        self.name = name
         memoryCache = Memory()
         diskCache = Disk(name: name, rootPath: rootPath)
     }
