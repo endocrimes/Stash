@@ -14,6 +14,7 @@ public typealias MemoryCacheObjectBlock = (cache: Memory, key: String, object: N
 
 public class Memory {
     private let concurrentQueue: dispatch_queue_t = dispatch_queue_create("com.rocketapps.stash.memory", DISPATCH_QUEUE_CONCURRENT)
+    private let semaphore: dispatch_semaphore_t = dispatch_semaphore_create(1)
     
     private var objects: [String : NSData] = [String : NSData]()
     private var dates: [String : NSDate] = [String : NSDate]()
@@ -34,7 +35,17 @@ public class Memory {
     }
     
     public func objectForKey(key: String) -> NSData? {
-        return nil
+        let now = NSDate()
+        
+        self.lock()
+        let object = objects[key]
+        self.unlock()
+        
+        if let _ = object {
+            updateAccessTimeOfObjectForKey(key, date: now)
+        }
+        
+        return object
     }
     
     public func removeObjectForKey(key: String) {
@@ -104,7 +115,25 @@ public class Memory {
     
     // MARK - Private Methods
     
+    /**
+    This method updates the last access time of an object at a given key.
+    It assumes that an object for the given key exists.
+    */
+    private func updateAccessTimeOfObjectForKey(key: String, date: NSDate) {
+        self.lock()
+        dates[key] = date
+        self.unlock()
+    }
+    
     private func async(block: dispatch_block_t) {
         dispatch_async(concurrentQueue, block)
+    }
+    
+    private func lock() {
+        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER)
+    }
+    
+    private func unlock() {
+        dispatch_semaphore_signal(semaphore)
     }
 }
