@@ -96,6 +96,28 @@ class MemoryTests: XCTestCase {
         XCTAssertNil(hopefullyNilObject)
     }
     
+    func test_inserting_object_updates_total_cost_sync() {
+        let testKey = "test_inserting_object_updates_total_cost_sync"
+        let testObject = dummyData("Hi")
+        let testCost = 10
+        
+        sut.setObject(testObject, forKey: testKey, cost: testCost)
+        
+        XCTAssertEqual(sut.totalCost, testCost)
+    }
+    
+    func test_removing_object_updates_total_cost_sync() {
+        let testKey = "test_removing_object_updates_total_cost_sync"
+        let testObject = dummyData("Hi")
+        let testCost = 10
+        
+        sut.setObject(testObject, forKey: testKey, cost: testCost)
+        
+        sut.removeObjectForKey(testKey)
+        
+        XCTAssertEqual(sut.totalCost, 0)
+    }
+    
     func test_can_remove_all_objects_sync() {
         let kvPairs = [
             "key1" : dummyData("Hi"),

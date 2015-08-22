@@ -11,10 +11,45 @@ import Foundation
 public typealias MemoryCacheBlock = (cache: Memory) -> ()
 public typealias MemoryCacheObjectBlock = (cache: Memory, key: String, object: NSData?) -> ()
 
+private struct MemoryPrivateState {
+    var maximumCost: Int? = nil
+    var totalCost: Int = 0
+}
 
 public class Memory {
+    private var state = MemoryPrivateState()
     
-    public var maximumCost: Int?
+    public var maximumCost: Int? {
+        get {
+            self.lock()
+            let cost = state.maximumCost
+            self.unlock()
+            
+            return cost
+        }
+        
+        set {
+            self.lock()
+            state.maximumCost = newValue
+            self.unlock()
+        }
+    }
+    
+    public var totalCost: Int {
+        get {
+            self.lock()
+            let cost = state.totalCost
+            self.unlock()
+            
+            return cost
+        }
+        
+        set {
+            self.lock()
+            state.totalCost = newValue
+            self.unlock()
+        }
+    }
     
     private let concurrentQueue: dispatch_queue_t = dispatch_queue_create("com.rocketapps.stash.memory", DISPATCH_QUEUE_CONCURRENT)
     private let semaphore: dispatch_semaphore_t = dispatch_semaphore_create(1)
@@ -32,10 +67,14 @@ public class Memory {
         if let _ = object {
             let now = NSDate()
             
+            let totalCost = self.totalCost
+            let newCost = totalCost + cost
+            
             self.lock()
             objects[forKey] = object
             dates[forKey] = now
             costs[forKey] = cost
+            state.totalCost = newCost
             self.unlock()
         }
         else {
@@ -58,17 +97,28 @@ public class Memory {
     }
     
     public func removeObjectForKey(key: String) {
-        self.lock()
+        lock()
+        let cost = costs[key]
+        if let cost = cost {
+            state.totalCost -= cost
+        }
+        
         objects[key] = nil
         dates[key] = nil
         costs[key] = nil
-        self.unlock()
+        unlock()
     }
     
     public func trimBeforeDate(date: NSDate) {
     }
     
     public func removeAllObjects() {
+        lock()
+        objects.removeAll()
+        dates.removeAll()
+        costs.removeAll()
+        state.totalCost = 0
+        unlock()
     }
     
     subscript(index: String) -> NSData? {
