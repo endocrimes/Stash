@@ -110,6 +110,15 @@ public class Memory {
     }
     
     public func trimBeforeDate(date: NSDate) {
+        
+    }
+    
+    public func trimToCost(cost: Int) {
+        
+    }
+    
+    public func trimToCostByDate(cost: Int) {
+        
     }
     
     public func removeAllObjects() {
