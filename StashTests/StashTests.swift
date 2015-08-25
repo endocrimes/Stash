@@ -59,6 +59,14 @@ class StashTests: XCTestCase {
         let object = sut.objectForKey(testKey)
         
         XCTAssertEqual(testData, object)
+        
+        let inMemoryObject = sut.memoryCache.objectForKey(testKey)
+        
+        XCTAssertEqual(inMemoryObject, testData)
+        
+        let onDiskObject = sut.diskCache.objectForKey(testKey)
+        
+        XCTAssertEqual(onDiskObject, testData)
     }
     
     func test_can_read_nil_value_for_unset_key_sync() {
@@ -84,6 +92,14 @@ class StashTests: XCTestCase {
         let hopefullyNilObject = sut.objectForKey(testKey)
         
         XCTAssertNil(hopefullyNilObject)
+        
+        let inMemoryObject = sut.memoryCache.objectForKey(testKey)
+        
+        XCTAssertNil(inMemoryObject)
+        
+        let onDiskObject = sut.diskCache.objectForKey(testKey)
+        
+        XCTAssertNil(onDiskObject)
     }
     
     func test_can_read_and_write_data_using_subscript() {
