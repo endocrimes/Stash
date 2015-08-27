@@ -97,7 +97,7 @@ public final class Memory {
     }
     
     public func removeObjectForKey(key: String) {
-        lock()
+        self.lock()
         let cost = costs[key]
         if let cost = cost {
             state.totalCost -= cost
@@ -106,7 +106,7 @@ public final class Memory {
         objects[key] = nil
         dates[key] = nil
         costs[key] = nil
-        unlock()
+        self.unlock()
     }
     
     public func trimBeforeDate(date: NSDate) {
@@ -122,12 +122,12 @@ public final class Memory {
     }
     
     public func removeAllObjects() {
-        lock()
+        self.lock()
         objects.removeAll()
         dates.removeAll()
         costs.removeAll()
         state.totalCost = 0
-        unlock()
+        self.unlock()
     }
     
     subscript(index: String) -> NSData? {
