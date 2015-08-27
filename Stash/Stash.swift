@@ -23,7 +23,7 @@ public typealias CacheObjectBlock = (cache: Stash, key: String, object: NSData?)
  *
  * Stash was influenced by TMCache and PINCache.
  */
-public class Stash {
+public final class Stash {
     
     /// The underlying memory cache. See `Memory` for more.
     public let memoryCache: Memory
