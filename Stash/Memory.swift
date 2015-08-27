@@ -16,7 +16,7 @@ private struct MemoryPrivateState {
     var totalCost: Int = 0
 }
 
-public class Memory {
+public final class Memory {
     private var state = MemoryPrivateState()
     
     public var maximumCost: Int? {

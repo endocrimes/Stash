@@ -11,11 +11,15 @@ import Foundation
 public typealias DiskCacheBlock = (cache: Disk) -> ()
 public typealias DiskCacheObjectBlock = (cache: Disk, key: String, object: NSData?) -> ()
 
-public class Disk {
+public final class Disk {
     private let concurrentQueue: dispatch_queue_t = dispatch_queue_create("com.rocketapps.stash.disk", DISPATCH_QUEUE_CONCURRENT)
     
     /// The maximum size of the cache on disk, use nil for infinite.
     public let maximumDiskSize: Double? = nil
+    
+    public var byteCount: Double {
+        return 0.0
+    }
     
     init(name: String, rootPath: String) {
     }
