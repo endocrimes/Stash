@@ -13,6 +13,20 @@ private func dummyData(string: String) -> NSData {
     return string.dataUsingEncoding(NSUTF8StringEncoding)!
 }
 
+private func VerifyObjectWasSet(object: NSData?, forKey key: String, inCache cache: Stash, file: String = __FILE__, line: UInt = __LINE__) {
+    let stashObj = cache.objectForKey(key)
+    let memoryObj = cache.memoryCache.objectForKey(key)
+    let diskObj = cache.diskCache.objectForKey(key)
+    
+    XCTAssertEqual(stashObj, object, file: file, line: line)
+    XCTAssertEqual(memoryObj, object, file: file, line: line)
+    XCTAssertEqual(diskObj, object, file: file, line: line)
+}
+
+private func VerifyObjectWasRemoved(key: String, inCache cache: Stash, file: String = __FILE__, line: UInt = __LINE__) {
+    VerifyObjectWasSet(nil, forKey: key, inCache: cache, file: file, line: line)
+}
+
 class StashTests: XCTestCase {
     var sut: Stash!
     
@@ -56,17 +70,7 @@ class StashTests: XCTestCase {
         
         sut.setObject(testData, forKey: testKey)
         
-        let object = sut.objectForKey(testKey)
-        
-        XCTAssertEqual(testData, object)
-        
-        let inMemoryObject = sut.memoryCache.objectForKey(testKey)
-        
-        XCTAssertEqual(inMemoryObject, testData)
-        
-        let onDiskObject = sut.diskCache.objectForKey(testKey)
-        
-        XCTAssertEqual(onDiskObject, testData)
+        VerifyObjectWasSet(testData, forKey: testKey, inCache: sut)
     }
     
     func test_can_read_nil_value_for_unset_key_sync() {
@@ -89,17 +93,7 @@ class StashTests: XCTestCase {
         
         sut.removeObjectForKey(testKey)
         
-        let hopefullyNilObject = sut.objectForKey(testKey)
-        
-        XCTAssertNil(hopefullyNilObject)
-        
-        let inMemoryObject = sut.memoryCache.objectForKey(testKey)
-        
-        XCTAssertNil(inMemoryObject)
-        
-        let onDiskObject = sut.diskCache.objectForKey(testKey)
-        
-        XCTAssertNil(onDiskObject)
+        VerifyObjectWasSet(nil, forKey: testKey, inCache: sut)
     }
     
     func test_can_read_and_write_data_using_subscript() {
@@ -107,6 +101,8 @@ class StashTests: XCTestCase {
         let testObject = dummyData("Hello!")
         
         sut[testKey] = testObject
+        
+        VerifyObjectWasSet(testObject, forKey: testKey, inCache: sut)
         
         let object = sut[testKey]
         
@@ -125,9 +121,7 @@ class StashTests: XCTestCase {
         
         sut.setObject(nil, forKey: testKey)
         
-        let hopefullyNilObject = sut.objectForKey(testKey)
-        
-        XCTAssertNil(hopefullyNilObject)
+        VerifyObjectWasRemoved(testKey, inCache: sut)
     }
     
     func test_can_remove_all_objects_sync() {
@@ -140,14 +134,13 @@ class StashTests: XCTestCase {
         for (key, value) in kvPairs {
             sut[key] = value
             
-            XCTAssertEqual(value, sut[key])
+            VerifyObjectWasSet(value, forKey: key, inCache: sut)
         }
         
         sut.removeAllObjects()
         
         for (key, _) in kvPairs {
-            let object = sut[key]
-            XCTAssertNil(object)
+            VerifyObjectWasRemoved(key, inCache: sut)
         }
     }
     
@@ -164,10 +157,13 @@ class StashTests: XCTestCase {
         
         waitForExpectationsWithTimeout(1.0, handler: nil)
         
+        VerifyObjectWasSet(testData, forKey: testKey, inCache: self.sut)
+        
         let readExpectation = expectationWithDescription("Read data expectation")
         
         sut.objectForKey(testKey, completionHandler: { _, _, value in
             XCTAssertEqual(value, testData)
+            
             readExpectation.fulfill()
         })
         
@@ -203,9 +199,7 @@ class StashTests: XCTestCase {
         
         waitForExpectationsWithTimeout(1.0, handler: nil)
         
-        let hopefullyNilObject = sut.objectForKey(testKey)
-        
-        XCTAssertNil(hopefullyNilObject)
+        VerifyObjectWasRemoved(testKey, inCache: sut)
     }
 
     func test_setting_nil_data_removes_object_for_key_async() {
@@ -225,9 +219,7 @@ class StashTests: XCTestCase {
         
         waitForExpectationsWithTimeout(1.0, handler: nil)
         
-        let hopefullyNilObject = sut.objectForKey(testKey)
-        
-        XCTAssertNil(hopefullyNilObject)
+        VerifyObjectWasRemoved(testKey, inCache: sut)
     }
     
     func test_can_remove_all_objects_async() {
@@ -240,7 +232,7 @@ class StashTests: XCTestCase {
         for (key, value) in kvPairs {
             sut[key] = value
             
-            XCTAssertEqual(value, sut[key])
+            VerifyObjectWasSet(value, forKey: key, inCache: sut)
         }
         
         let removeExpectation = expectationWithDescription("Remove all objects expectation")
@@ -251,8 +243,7 @@ class StashTests: XCTestCase {
         waitForExpectationsWithTimeout(1.0, handler: nil)
         
         for (key, _) in kvPairs {
-            let object = sut[key]
-            XCTAssertNil(object)
+            VerifyObjectWasRemoved(key, inCache: sut)
         }
     }
 }

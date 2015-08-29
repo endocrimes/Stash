@@ -21,38 +21,40 @@ public final class Memory {
     
     public var maximumCost: Int? {
         get {
-            self.lock()
-            let cost = state.maximumCost
-            self.unlock()
+            var cost: Int? = nil
+            readBlockSync {
+                cost = self.state.maximumCost
+            }
             
             return cost
         }
         
         set {
-            self.lock()
-            state.maximumCost = newValue
-            self.unlock()
+            writeBlockSync {
+                self.state.maximumCost = newValue
+            }
         }
     }
     
     public var totalCost: Int {
         get {
-            self.lock()
-            let cost = state.totalCost
-            self.unlock()
+            var cost = 0
+            readBlockSync {
+               cost = self.state.totalCost
+            }
             
             return cost
         }
         
         set {
-            self.lock()
-            state.totalCost = newValue
-            self.unlock()
+            writeBlockSync {
+                self.state.totalCost = newValue
+            }
         }
     }
     
-    private let concurrentQueue: dispatch_queue_t = dispatch_queue_create("com.rocketapps.stash.memory", DISPATCH_QUEUE_CONCURRENT)
-    private let semaphore: dispatch_semaphore_t = dispatch_semaphore_create(1)
+    private let concurrentQueue: dispatch_queue_t = dispatch_queue_create("com.rocketapps.stash.memory.async", DISPATCH_QUEUE_CONCURRENT)
+    private let syncQueue: dispatch_queue_t = dispatch_queue_create("com.rocketapps.stash.memory.internal", DISPATCH_QUEUE_CONCURRENT)
     
     private var objects: [String : NSData] = [String : NSData]()
     private var dates: [String : NSDate] = [String : NSDate]()
@@ -70,12 +72,12 @@ public final class Memory {
             let totalCost = self.totalCost
             let newCost = totalCost + cost
             
-            self.lock()
-            objects[forKey] = object
-            dates[forKey] = now
-            costs[forKey] = cost
-            state.totalCost = newCost
-            self.unlock()
+            writeBlockSync {
+                self.objects[forKey] = object
+                self.dates[forKey] = now
+                self.costs[forKey] = cost
+                self.state.totalCost = newCost
+            }
         }
         else {
             removeObjectForKey(forKey)
@@ -85,9 +87,10 @@ public final class Memory {
     public func objectForKey(key: String) -> NSData? {
         let now = NSDate()
         
-        self.lock()
-        let object = objects[key]
-        self.unlock()
+        var object: NSData?
+        readBlockSync {
+            object = self.objects[key]
+        }
         
         if let _ = object {
             updateAccessTimeOfObjectForKey(key, date: now)
@@ -97,37 +100,49 @@ public final class Memory {
     }
     
     public func removeObjectForKey(key: String) {
-        self.lock()
-        let cost = costs[key]
-        if let cost = cost {
-            state.totalCost -= cost
-        }
+        writeBlockSync {
+            let cost = self.costs[key]
+            if let cost = cost {
+                self.state.totalCost -= cost
+            }
         
-        objects[key] = nil
-        dates[key] = nil
-        costs[key] = nil
-        self.unlock()
+            self.objects[key] = nil
+            self.dates[key] = nil
+            self.costs[key] = nil
+        }
     }
     
     public func trimBeforeDate(date: NSDate) {
-        
+        fatalError("Unimplemented Function")
     }
     
     public func trimToCost(cost: Int) {
-        
+        fatalError("Unimplemented Function")
     }
     
     public func trimToCostByDate(cost: Int) {
-        
+        fatalError("Unimplemented Function")
     }
     
     public func removeAllObjects() {
-        self.lock()
-        objects.removeAll()
-        dates.removeAll()
-        costs.removeAll()
-        state.totalCost = 0
-        self.unlock()
+        writeBlockSync {
+            self.objects.removeAll()
+            self.dates.removeAll()
+            self.costs.removeAll()
+            self.state.totalCost = 0
+        }
+    }
+    
+    public func enumerateObjects(block: (key: String, value: NSData) -> ()) {
+        readBlockSync {
+            if let sortedKeys = (self.dates as NSDictionary).keysSortedByValueUsingSelector("compare:") as? [String] {
+                for key in sortedKeys {
+                    guard let value = self.objects[key] else { return }
+                    
+                    block(key: key, value: value)
+                }
+            }
+        }
     }
     
     subscript(index: String) -> NSData? {
@@ -186,6 +201,15 @@ public final class Memory {
         }
     }
     
+    public func enumerateObjects(block: (key: String, value: NSData) -> (), completionHandler: MemoryCacheBlock?) {
+        async { [weak self] in
+            guard let strongSelf = self else { return }
+            
+            strongSelf.enumerateObjects(block)
+            completionHandler?(cache: strongSelf)
+        }
+    }
+
     // MARK - Private Methods
     
     /**
@@ -193,20 +217,28 @@ public final class Memory {
     It assumes that an object for the given key exists.
     */
     private func updateAccessTimeOfObjectForKey(key: String, date: NSDate) {
-        self.lock()
-        dates[key] = date
-        self.unlock()
+        writeBlockSync {
+            self.dates[key] = date
+        }
     }
     
     private func async(block: dispatch_block_t) {
         dispatch_async(concurrentQueue, block)
     }
     
-    private func lock() {
-        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER)
+    private func writeBlockSync(block: () -> ()) {
+        dispatch_barrier_sync(syncQueue, block)
     }
     
-    private func unlock() {
-        dispatch_semaphore_signal(semaphore)
+    private func readBlockSync(block: () -> ()) {
+        dispatch_sync(syncQueue, block)
+    }
+    
+    private func writeBlockAsync(block: () -> ()) {
+        dispatch_barrier_async(syncQueue, block)
+    }
+    
+    private func readBlockAsync(block: () -> ()) {
+        dispatch_async(syncQueue, block)
     }
 }
