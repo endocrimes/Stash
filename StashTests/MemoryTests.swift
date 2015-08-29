@@ -139,6 +139,28 @@ class MemoryTests: XCTestCase {
         }
     }
     
+    func test_can_enumerate_over_objects_sync() {
+        let kvPairs = [
+            "key1" : dummyData("Hi"),
+            "key2" : dummyData("Hello"),
+            "key3" : dummyData("Hello, World")
+        ]
+        
+        for (key, value) in kvPairs {
+            sut[key] = value
+            
+            XCTAssertEqual(value, sut[key])
+        }
+        
+        let expectedCount = kvPairs.count
+        var count = 0
+        sut.enumerateObjects { _ in
+            count++
+        }
+        
+        XCTAssertEqual(count, expectedCount)
+    }
+    
     // MARK - Asynchronous Tests
     
     func test_can_write_data_to_cache_async() {
@@ -242,5 +264,35 @@ class MemoryTests: XCTestCase {
             let object = sut[key]
             XCTAssertNil(object)
         }
+    }
+    
+    func test_can_enumerate_over_objects_async() {
+        let kvPairs = [
+            "key1" : dummyData("Hi"),
+            "key2" : dummyData("Hello"),
+            "key3" : dummyData("Hello, World")
+        ]
+        
+        for (key, value) in kvPairs {
+            sut[key] = value
+            
+            XCTAssertEqual(value, sut[key])
+        }
+        
+        let expectedCount = kvPairs.count
+        var count = 0
+        let enumeratorBlock: (String, NSData) -> () = { _ in
+            count++
+        }
+        
+        let expectation = expectationWithDescription("Completion handler called")
+        
+        sut.enumerateObjects(enumeratorBlock) { _ in
+            expectation.fulfill()
+        }
+        
+        waitForExpectationsWithTimeout(0.1, handler: nil)
+        
+        XCTAssertEqual(count, expectedCount)
     }
 }
