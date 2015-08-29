@@ -18,9 +18,9 @@ private func VerifyObjectWasSet(object: NSData?, forKey key: String, inCache cac
     let memoryObj = cache.memoryCache.objectForKey(key)
     let diskObj = cache.diskCache.objectForKey(key)
     
-    XCTAssertEqual(stashObj, object, file: file, line: line)
-    XCTAssertEqual(memoryObj, object, file: file, line: line)
-    XCTAssertEqual(diskObj, object, file: file, line: line)
+    XCTAssertEqual(stashObj, object, "Object retreived from Stash was invalid", file: file, line: line)
+    XCTAssertEqual(memoryObj, object, "Object retreived from Memory was invalid", file: file, line: line)
+    XCTAssertEqual(diskObj, object, "Object retreived from Disk was invalid", file: file, line: line)
 }
 
 private func VerifyObjectWasRemoved(key: String, inCache cache: Stash, file: String = __FILE__, line: UInt = __LINE__) {
