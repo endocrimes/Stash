@@ -30,9 +30,12 @@ public final class Memory {
         }
         
         set {
-            writeBlockAsync {
+            writeBlockSync {
                 self.state.maximumCost = newValue
             }
+            
+            guard let newValue = newValue else { return }
+            self.trimToCostByDate(newValue)
         }
     }
     
