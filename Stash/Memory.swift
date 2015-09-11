@@ -30,7 +30,7 @@ public final class Memory {
         }
         
         set {
-            writeBlockSync {
+            writeBlockAsync {
                 self.state.maximumCost = newValue
             }
         }
@@ -47,7 +47,7 @@ public final class Memory {
         }
         
         set {
-            writeBlockSync {
+            writeBlockAsync {
                 self.state.totalCost = newValue
             }
         }
@@ -70,6 +70,7 @@ public final class Memory {
             let now = NSDate()
             
             let totalCost = self.totalCost
+            let maximumCost = self.maximumCost
             let newCost = totalCost + cost
             
             writeBlockSync {
@@ -77,6 +78,10 @@ public final class Memory {
                 self.dates[forKey] = now
                 self.costs[forKey] = cost
                 self.state.totalCost = newCost
+            }
+            
+            if let maximumCost = maximumCost {
+                trimToCostByDate(maximumCost)
             }
         }
         else {
@@ -121,7 +126,25 @@ public final class Memory {
     }
     
     public func trimToCostByDate(cost: Int) {
-        fatalError("Unimplemented Function")
+        var totalCost = self.totalCost
+        if totalCost <= cost {
+            return
+        }
+        
+        var orderedKeys: [String]?
+        readBlockSync {
+            orderedKeys = (self.dates as NSDictionary).keysSortedByValueUsingSelector("compare:") as? [String]
+        }
+        
+        guard let keys: [String] = orderedKeys else { return }
+        for key in keys {
+            removeObjectForKey(key)
+            
+            totalCost = self.totalCost
+            if totalCost <= cost {
+                break
+            }
+        }
     }
     
     public func removeAllObjects() {

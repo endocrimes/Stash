@@ -161,6 +161,32 @@ class MemoryTests: XCTestCase {
         XCTAssertEqual(count, expectedCount)
     }
     
+    func test_can_trim_to_cost_by_date_sync() {
+        struct TestObject {
+            let key: String = NSUUID().UUIDString
+            let value: NSData = NSUUID().UUIDString.dataUsingEncoding(NSUTF8StringEncoding)!
+            let cost: Int
+        }
+        
+        let objects = [
+            TestObject(cost: 100),
+            TestObject(cost: 100),
+            TestObject(cost: 100),
+            TestObject(cost: 100),
+            TestObject(cost: 100)
+        ]
+        
+        for object in objects {
+            sut.setObject(object.value, forKey: object.key, cost: object.cost)
+        }
+        
+        sut.trimToCostByDate(400)
+        
+        let firstObjectKey = objects.first!.key
+        
+        XCTAssertNil(sut[firstObjectKey])
+    }
+    
     // MARK - Asynchronous Tests
     
     func test_can_write_data_to_cache_async() {
