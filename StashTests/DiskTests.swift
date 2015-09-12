@@ -24,20 +24,10 @@ class DiskTests: XCTestCase {
         let documentsDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first!
         let testDirectory = (documentsDirectory as NSString).stringByAppendingPathComponent("Tests")
         let fileManager = NSFileManager.defaultManager()
-        
-        do {
-            try fileManager.removeItemAtPath(testDirectory)
-        }
-        catch {
-            // We don't actually care about failures here.
-        }
-        
-        do {
-            try fileManager.createDirectoryAtPath(testDirectory, withIntermediateDirectories: true, attributes: nil)
-        }
-        catch {
-            // We don't actually care about failures here.
-        }
+
+        // We don't care about errors for these.
+        try? fileManager.removeItemAtPath(testDirectory)
+        try? fileManager.createDirectoryAtPath(testDirectory, withIntermediateDirectories: true, attributes: nil)
         
         sut = Disk(name: "Test", rootPath: testDirectory)
     }
@@ -58,7 +48,7 @@ class DiskTests: XCTestCase {
         
         let object = sut.objectForKey(testKey)
         
-        XCTAssertEqual(testData, object)
+        XCTAssertEqual(object, testData)
     }
     
     func test_can_read_nil_value_for_unset_key_sync() {
@@ -94,7 +84,7 @@ class DiskTests: XCTestCase {
         
         let object = sut[testKey]
         
-        XCTAssertEqual(testObject, object)
+        XCTAssertEqual(object, testObject)
     }
     
     func test_setting_nil_data_removes_object_for_key_sync() {
@@ -124,7 +114,7 @@ class DiskTests: XCTestCase {
         for (key, value) in kvPairs {
             sut[key] = value
             
-            XCTAssertEqual(value, sut[key])
+            XCTAssertEqual(sut[key], value)
         }
         
         sut.removeAllObjects()

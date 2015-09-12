@@ -53,6 +53,9 @@ public final class Disk {
         }
         
         state.cacheURL = cacheURL
+        
+        // MARK - Setup Cache's directory
+        
     }
     
     // MARK - Synchronous Methods
@@ -152,6 +155,17 @@ public final class Disk {
 
 private func DiskCacheURL(withName name: String, rootPath: String, prefix: String = "co.rocketapps.stash.disk") -> NSURL? {
     return NSURL.fileURLWithPathComponents([rootPath, name, prefix])
+}
+
+private func CreateCachesDirectoryAtURL(url: NSURL) throws -> Bool {
+    let fileManager = NSFileManager.defaultManager()
+    guard fileManager.fileExistsAtPath(url.absoluteString) == false else {
+        return false
+    }
+    
+    try fileManager.createDirectoryAtURL(url, withIntermediateDirectories: true, attributes: nil)
+    
+    return true
 }
 
 private struct DiskPrivateState {
