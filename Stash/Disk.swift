@@ -11,11 +11,6 @@ import Foundation
 public typealias DiskCacheBlock = (cache: Disk) -> ()
 public typealias DiskCacheObjectBlock = (cache: Disk, key: String, object: NSData?) -> ()
 
-private struct DiskPrivateState {
-    var maximumSizeInBytes: Double? = nil
-    var byteCount: Double = 0
-}
-
 public final class Disk {
     private var state = DiskPrivateState()
     private let semaphore: dispatch_semaphore_t = dispatch_semaphore_create(1)
@@ -24,35 +19,40 @@ public final class Disk {
     /// The maximum size of the cache on disk, use nil for infinite.
     public var maximumDiskSize: Double? {
         get {
-            self.lock()
+            lock()
             let value = state.maximumSizeInBytes
-            self.unlock()
+            unlock()
             
             return value
         }
         set {
-            self.lock()
+            lock()
             state.maximumSizeInBytes = newValue
-            self.unlock()
+            unlock()
         }
     }
     
     public var byteCount: Double {
         get {
-            self.lock()
+            lock()
             let value = state.byteCount
-            self.unlock()
+            unlock()
             
             return value
         }
         set {
-            self.lock()
+            lock()
             state.byteCount = newValue
-            self.unlock()
+            unlock()
         }
     }
     
     init(name: String, rootPath: String) {
+        guard let cacheURL = DiskCacheURL(withName: name, rootPath: rootPath) else {
+            fatalError("Disk failed to create a cache url with name: \(name), rootPath: \(rootPath)")
+        }
+        
+        state.cacheURL = cacheURL
     }
     
     // MARK - Synchronous Methods
@@ -148,4 +148,22 @@ public final class Disk {
     private func unlock() {
         dispatch_semaphore_signal(semaphore)
     }
+}
+
+private func DiskCacheURL(withName name: String, rootPath: String, prefix: String = "co.rocketapps.stash.disk") -> NSURL? {
+    return NSURL.fileURLWithPathComponents([rootPath, name, prefix])
+}
+
+private struct DiskPrivateState {
+    var maximumSizeInBytes: Double? = nil
+    var byteCount: Double = 0
+    var dates: [NSDate] = []
+    var sizes: [Double] = []
+    var cacheURL: NSURL!
+}
+
+private struct DiskBackgroundTask {
+    #if os(ios) || os(watchos)
+    var taskIdentifier: UIBackgroundTaskIdentifier
+    #endif
 }
