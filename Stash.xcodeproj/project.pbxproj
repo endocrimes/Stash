@@ -7,6 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		65C03CEA1BA44744003AD121 /* Debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 65C03CE01BA44744003AD121 /* Debug.xcconfig */; settings = {ASSET_TAGS = (); }; };
+		65C03CEB1BA44744003AD121 /* iOS Framework.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 65C03CE11BA44744003AD121 /* iOS Framework.xcconfig */; settings = {ASSET_TAGS = (); }; };
+		65C03CEC1BA44744003AD121 /* iOS Static Library.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 65C03CE21BA44744003AD121 /* iOS Static Library.xcconfig */; settings = {ASSET_TAGS = (); }; };
+		65C03CED1BA44744003AD121 /* iOS Tests.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 65C03CE31BA44744003AD121 /* iOS Tests.xcconfig */; settings = {ASSET_TAGS = (); }; };
+		65C03CEE1BA44744003AD121 /* OSX Framework.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 65C03CE41BA44744003AD121 /* OSX Framework.xcconfig */; settings = {ASSET_TAGS = (); }; };
+		65C03CEF1BA44744003AD121 /* OSX Tests.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 65C03CE51BA44744003AD121 /* OSX Tests.xcconfig */; settings = {ASSET_TAGS = (); }; };
+		65C03CF01BA44744003AD121 /* Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 65C03CE61BA44744003AD121 /* Release.xcconfig */; settings = {ASSET_TAGS = (); }; };
+		65C03CF11BA44744003AD121 /* Shared.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 65C03CE71BA44744003AD121 /* Shared.xcconfig */; settings = {ASSET_TAGS = (); }; };
+		65C03CF21BA44744003AD121 /* Warnings.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 65C03CE81BA44744003AD121 /* Warnings.xcconfig */; settings = {ASSET_TAGS = (); }; };
+		65C03CF31BA44744003AD121 /* watchOS Framework.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 65C03CE91BA44744003AD121 /* watchOS Framework.xcconfig */; settings = {ASSET_TAGS = (); }; };
 		65EB83A31B87C6DE009D3FE4 /* Stash.h in Headers */ = {isa = PBXBuildFile; fileRef = 65EB83A21B87C6DE009D3FE4 /* Stash.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		65EB83AA1B87C6DE009D3FE4 /* Stash.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65EB839F1B87C6DE009D3FE4 /* Stash.framework */; };
 		65EB83AF1B87C6DE009D3FE4 /* StashTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65EB83AE1B87C6DE009D3FE4 /* StashTests.swift */; };
@@ -28,6 +38,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		65C03CE01BA44744003AD121 /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
+		65C03CE11BA44744003AD121 /* iOS Framework.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "iOS Framework.xcconfig"; sourceTree = "<group>"; };
+		65C03CE21BA44744003AD121 /* iOS Static Library.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "iOS Static Library.xcconfig"; sourceTree = "<group>"; };
+		65C03CE31BA44744003AD121 /* iOS Tests.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "iOS Tests.xcconfig"; sourceTree = "<group>"; };
+		65C03CE41BA44744003AD121 /* OSX Framework.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "OSX Framework.xcconfig"; sourceTree = "<group>"; };
+		65C03CE51BA44744003AD121 /* OSX Tests.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "OSX Tests.xcconfig"; sourceTree = "<group>"; };
+		65C03CE61BA44744003AD121 /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
+		65C03CE71BA44744003AD121 /* Shared.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Shared.xcconfig; sourceTree = "<group>"; };
+		65C03CE81BA44744003AD121 /* Warnings.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Warnings.xcconfig; sourceTree = "<group>"; };
+		65C03CE91BA44744003AD121 /* watchOS Framework.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "watchOS Framework.xcconfig"; sourceTree = "<group>"; };
 		65EB839F1B87C6DE009D3FE4 /* Stash.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Stash.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		65EB83A21B87C6DE009D3FE4 /* Stash.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Stash.h; sourceTree = "<group>"; };
 		65EB83A41B87C6DE009D3FE4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -60,9 +80,35 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		65C03CDE1BA44744003AD121 /* External */ = {
+			isa = PBXGroup;
+			children = (
+				65C03CDF1BA44744003AD121 /* xcconfigs */,
+			);
+			path = External;
+			sourceTree = "<group>";
+		};
+		65C03CDF1BA44744003AD121 /* xcconfigs */ = {
+			isa = PBXGroup;
+			children = (
+				65C03CE01BA44744003AD121 /* Debug.xcconfig */,
+				65C03CE11BA44744003AD121 /* iOS Framework.xcconfig */,
+				65C03CE21BA44744003AD121 /* iOS Static Library.xcconfig */,
+				65C03CE31BA44744003AD121 /* iOS Tests.xcconfig */,
+				65C03CE41BA44744003AD121 /* OSX Framework.xcconfig */,
+				65C03CE51BA44744003AD121 /* OSX Tests.xcconfig */,
+				65C03CE61BA44744003AD121 /* Release.xcconfig */,
+				65C03CE71BA44744003AD121 /* Shared.xcconfig */,
+				65C03CE81BA44744003AD121 /* Warnings.xcconfig */,
+				65C03CE91BA44744003AD121 /* watchOS Framework.xcconfig */,
+			);
+			path = xcconfigs;
+			sourceTree = "<group>";
+		};
 		65EB83951B87C6DE009D3FE4 = {
 			isa = PBXGroup;
 			children = (
+				65C03CDE1BA44744003AD121 /* External */,
 				65EB83A11B87C6DE009D3FE4 /* Stash */,
 				65EB83AD1B87C6DE009D3FE4 /* StashTests */,
 				65EB83A01B87C6DE009D3FE4 /* Products */,
@@ -192,6 +238,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				65C03CEF1BA44744003AD121 /* OSX Tests.xcconfig in Resources */,
+				65C03CEE1BA44744003AD121 /* OSX Framework.xcconfig in Resources */,
+				65C03CEB1BA44744003AD121 /* iOS Framework.xcconfig in Resources */,
+				65C03CF21BA44744003AD121 /* Warnings.xcconfig in Resources */,
+				65C03CEC1BA44744003AD121 /* iOS Static Library.xcconfig in Resources */,
+				65C03CEA1BA44744003AD121 /* Debug.xcconfig in Resources */,
+				65C03CF31BA44744003AD121 /* watchOS Framework.xcconfig in Resources */,
+				65C03CF11BA44744003AD121 /* Shared.xcconfig in Resources */,
+				65C03CF01BA44744003AD121 /* Release.xcconfig in Resources */,
+				65C03CED1BA44744003AD121 /* iOS Tests.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -238,6 +294,7 @@
 /* Begin XCBuildConfiguration section */
 		65EB83B11B87C6DE009D3FE4 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 65C03CE01BA44744003AD121 /* Debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -286,6 +343,7 @@
 		};
 		65EB83B21B87C6DE009D3FE4 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 65C03CE61BA44744003AD121 /* Release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -327,6 +385,7 @@
 		};
 		65EB83B41B87C6DE009D3FE4 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 65C03CE11BA44744003AD121 /* iOS Framework.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
@@ -345,6 +404,7 @@
 		};
 		65EB83B51B87C6DE009D3FE4 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 65C03CE11BA44744003AD121 /* iOS Framework.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
@@ -362,6 +422,7 @@
 		};
 		65EB83B71B87C6DE009D3FE4 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 65C03CE31BA44744003AD121 /* iOS Tests.xcconfig */;
 			buildSettings = {
 				INFOPLIST_FILE = StashTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -372,6 +433,7 @@
 		};
 		65EB83B81B87C6DE009D3FE4 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 65C03CE31BA44744003AD121 /* iOS Tests.xcconfig */;
 			buildSettings = {
 				INFOPLIST_FILE = StashTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -399,6 +461,7 @@
 				65EB83B51B87C6DE009D3FE4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		65EB83B61B87C6DE009D3FE4 /* Build configuration list for PBXNativeTarget "StashTests" */ = {
 			isa = XCConfigurationList;
@@ -407,6 +470,7 @@
 				65EB83B81B87C6DE009D3FE4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
