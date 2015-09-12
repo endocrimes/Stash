@@ -63,7 +63,7 @@ public final class Memory {
     private var dates: [String : NSDate] = [String : NSDate]()
     private var costs: [String : Int] = [String : Int]()
     
-    init() {
+    public init() {
     }
     
     // MARK - Synchronous Methods
