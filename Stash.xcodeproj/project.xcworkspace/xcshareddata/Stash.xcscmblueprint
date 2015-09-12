@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "13F4EC608CFBC7669EACE0964AA44E0042D5CE64",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "13F4EC608CFBC7669EACE0964AA44E0042D5CE64" : 0,
+    "8316115B4D866262F4E9023E23023C92D80CA54A" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "B2F8FA09-E000-45EC-8A69-DF73D2EEB814",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "13F4EC608CFBC7669EACE0964AA44E0042D5CE64" : "Stash\/",
+    "8316115B4D866262F4E9023E23023C92D80CA54A" : "Stash\/External\/xcconfigs\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "Stash",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Stash.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:DanielTomlinson\/Stash.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "13F4EC608CFBC7669EACE0964AA44E0042D5CE64"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/DanielTomlinson\/xcconfigs.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "8316115B4D866262F4E9023E23023C92D80CA54A"
+    }
+  ]
+}
