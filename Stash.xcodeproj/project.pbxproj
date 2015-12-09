@@ -7,16 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		65C03CEA1BA44744003AD121 /* Debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 65C03CE01BA44744003AD121 /* Debug.xcconfig */; settings = {ASSET_TAGS = (); }; };
-		65C03CEB1BA44744003AD121 /* iOS Framework.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 65C03CE11BA44744003AD121 /* iOS Framework.xcconfig */; settings = {ASSET_TAGS = (); }; };
-		65C03CEC1BA44744003AD121 /* iOS Static Library.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 65C03CE21BA44744003AD121 /* iOS Static Library.xcconfig */; settings = {ASSET_TAGS = (); }; };
-		65C03CED1BA44744003AD121 /* iOS Tests.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 65C03CE31BA44744003AD121 /* iOS Tests.xcconfig */; settings = {ASSET_TAGS = (); }; };
-		65C03CEE1BA44744003AD121 /* OSX Framework.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 65C03CE41BA44744003AD121 /* OSX Framework.xcconfig */; settings = {ASSET_TAGS = (); }; };
-		65C03CEF1BA44744003AD121 /* OSX Tests.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 65C03CE51BA44744003AD121 /* OSX Tests.xcconfig */; settings = {ASSET_TAGS = (); }; };
-		65C03CF01BA44744003AD121 /* Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 65C03CE61BA44744003AD121 /* Release.xcconfig */; settings = {ASSET_TAGS = (); }; };
-		65C03CF11BA44744003AD121 /* Shared.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 65C03CE71BA44744003AD121 /* Shared.xcconfig */; settings = {ASSET_TAGS = (); }; };
-		65C03CF21BA44744003AD121 /* Warnings.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 65C03CE81BA44744003AD121 /* Warnings.xcconfig */; settings = {ASSET_TAGS = (); }; };
-		65C03CF31BA44744003AD121 /* watchOS Framework.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 65C03CE91BA44744003AD121 /* watchOS Framework.xcconfig */; settings = {ASSET_TAGS = (); }; };
 		65EB83A31B87C6DE009D3FE4 /* Stash.h in Headers */ = {isa = PBXBuildFile; fileRef = 65EB83A21B87C6DE009D3FE4 /* Stash.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		65EB83AA1B87C6DE009D3FE4 /* Stash.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65EB839F1B87C6DE009D3FE4 /* Stash.framework */; };
 		65EB83AF1B87C6DE009D3FE4 /* StashTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65EB83AE1B87C6DE009D3FE4 /* StashTests.swift */; };
@@ -204,7 +194,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0700;
-				LastUpgradeCheck = 0700;
+				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = "Rocket Apps";
 				TargetAttributes = {
 					65EB839E1B87C6DE009D3FE4 = {
@@ -238,16 +228,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				65C03CEF1BA44744003AD121 /* OSX Tests.xcconfig in Resources */,
-				65C03CEE1BA44744003AD121 /* OSX Framework.xcconfig in Resources */,
-				65C03CEB1BA44744003AD121 /* iOS Framework.xcconfig in Resources */,
-				65C03CF21BA44744003AD121 /* Warnings.xcconfig in Resources */,
-				65C03CEC1BA44744003AD121 /* iOS Static Library.xcconfig in Resources */,
-				65C03CEA1BA44744003AD121 /* Debug.xcconfig in Resources */,
-				65C03CF31BA44744003AD121 /* watchOS Framework.xcconfig in Resources */,
-				65C03CF11BA44744003AD121 /* Shared.xcconfig in Resources */,
-				65C03CF01BA44744003AD121 /* Release.xcconfig in Resources */,
-				65C03CED1BA44744003AD121 /* iOS Tests.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
