@@ -47,15 +47,34 @@ public final class Disk {
         }
     }
     
+    public var name: String
+    
     init(name: String, rootPath: String) {
         guard let cacheURL = DiskCacheURL(withName: name, rootPath: rootPath) else {
             fatalError("Disk failed to create a cache url with name: \(name), rootPath: \(rootPath)")
         }
-        
         state.cacheURL = cacheURL
+        self.name = name
         
         // MARK - Setup Cache's directory
-        
+
+		CreateCachesDirectoryAtURL(cacheURL)
+
+		func setupDiskProperties() {
+			let fileManager = NSFileManager.defaultManager()
+			var byteCount = 0
+			let keys = [
+				NSURLContentModificationDateKey,
+				NSURLTotalFileAllocatedSizeKey
+			]
+
+			let allFiles = try! fileManager.contentsOfDirectoryAtURL(cacheURL,
+														   	includingPropertiesForKeys: keys,
+														   	options: NSDirectoryEnumeration.SkipsHiddenFiles)
+
+		}
+
+		setupDiskProperties()
     }
     
     // MARK - Synchronous Methods
@@ -153,26 +172,30 @@ public final class Disk {
     }
 }
 
+public extension Disk {
+    public var description: String {
+        return "co.rocketapps.stash.disk.\(name)"
+    }
+}
+
 private func DiskCacheURL(withName name: String, rootPath: String, prefix: String = "co.rocketapps.stash.disk") -> NSURL? {
     return NSURL.fileURLWithPathComponents([rootPath, name, prefix])
 }
 
-private func CreateCachesDirectoryAtURL(url: NSURL) throws -> Bool {
+private func CreateCachesDirectoryAtURL(url: NSURL) -> Bool {
     let fileManager = NSFileManager.defaultManager()
     guard fileManager.fileExistsAtPath(url.absoluteString) == false else {
         return false
     }
     
-    try fileManager.createDirectoryAtURL(url, withIntermediateDirectories: true, attributes: nil)
-    
-    return true
+    return try? fileManager.createDirectoryAtURL(url, withIntermediateDirectories: true, attributes: nil)
 }
 
 private struct DiskPrivateState {
     var maximumSizeInBytes: Double? = nil
     var byteCount: Double = 0
-    var dates: [NSDate] = []
-    var sizes: [Double] = []
+    var dates: [String : NSDate] = [:]
+    var sizes: [String : Double] = [:]
     var cacheURL: NSURL!
 }
 
