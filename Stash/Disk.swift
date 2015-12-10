@@ -294,7 +294,7 @@ public final class Disk {
     private func decodedString(string: String) -> String? {
         guard string.characters.count >= 0 else { return nil }
         
-        return string.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet(charactersInString: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890%-_=+"))
+        return string.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.alphanumericCharacterSet())
     }
     
     private func encodedString(string: String) -> String? {
