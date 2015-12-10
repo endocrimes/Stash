@@ -67,6 +67,7 @@ public final class Memory {
     private var observationToken: NSObjectProtocol?
     
     public init() {
+        #if os(ios)
         observationToken = NSNotificationCenter.defaultCenter()
             .addObserverForName(UIApplicationDidReceiveMemoryWarningNotification,
                 object: nil,
@@ -77,6 +78,7 @@ public final class Memory {
                         strongSelf.removeAllObjects()
                     }
                 })
+        #endif
     }
     
     deinit {
