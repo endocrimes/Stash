@@ -29,7 +29,7 @@ public final class Stash {
     public let memoryCache: Memory
     
     /// The underlying disk cache. See `Disk` for more.
-    public let diskCache: Disk
+    public let diskCache: Disk!
     
     /// The name of the cache. Used to create the `diskCache`.
     public let name: String
@@ -45,10 +45,22 @@ public final class Stash {
     * :param: name     The name of the cache.
     * :param: rootPath The path of the cache on disk.
     */
-    public init(name: String, rootPath: String) {
+    public init(name: String, rootPath: String) throws {
         self.name = name
         memoryCache = Memory()
-        diskCache = Disk(name: name, rootPath: rootPath)
+        
+        /*
+            This is a hack around not being able to throw before properties are
+            initialized. For now, making diskCache implicitly unwrapped, and
+            adding this do/catch should be fine.
+        */
+        do {
+            diskCache = try Disk(name: name, rootPath: rootPath)
+        }
+        catch let e {
+            diskCache = nil
+            throw e
+        }
     }
     
     // MARK - Synchronous Methods

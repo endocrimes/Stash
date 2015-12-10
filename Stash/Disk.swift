@@ -11,6 +11,11 @@ import Foundation
 public typealias DiskCacheBlock = (cache: Disk) -> ()
 public typealias DiskCacheObjectBlock = (cache: Disk, key: String, object: NSData?) -> ()
 
+private enum DiskCacheErrors : ErrorType {
+    case CacheURLCreationError(String)
+    case FailedToCreateCacheDirectory
+}
+
 public final class Disk {
     private var state = DiskPrivateState()
     private let semaphore: dispatch_semaphore_t = dispatch_semaphore_create(1)
@@ -49,32 +54,17 @@ public final class Disk {
     
     public var name: String
     
-    init(name: String, rootPath: String) {
+    init(name: String, rootPath: String) throws {
+        self.name = name
         guard let cacheURL = DiskCacheURL(withName: name, rootPath: rootPath) else {
-            fatalError("Disk failed to create a cache url with name: \(name), rootPath: \(rootPath)")
+            throw DiskCacheErrors.CacheURLCreationError("Disk failed to create a cache url with name: \(name), rootPath: \(rootPath)")
         }
         state.cacheURL = cacheURL
-        self.name = name
         
         // MARK - Setup Cache's directory
-
-		CreateCachesDirectoryAtURL(cacheURL)
-
-		func setupDiskProperties() {
-			let fileManager = NSFileManager.defaultManager()
-			var byteCount = 0
-			let keys = [
-				NSURLContentModificationDateKey,
-				NSURLTotalFileAllocatedSizeKey
-			]
-
-			let allFiles = try! fileManager.contentsOfDirectoryAtURL(cacheURL,
-														   	includingPropertiesForKeys: keys,
-														   	options: NSDirectoryEnumeration.SkipsHiddenFiles)
-
-		}
-
-		setupDiskProperties()
+        
+        try CreateCachesDirectoryAtURL(cacheURL)
+		try setupDiskProperties()
     }
     
     // MARK - Synchronous Methods
@@ -148,6 +138,15 @@ public final class Disk {
         }
     }
     
+    public func trimToSizeByDate(size: Double, completionHandler: DiskCacheBlock?) {
+        async { [weak self] in
+            guard let strongSelf = self else { return }
+            
+            strongSelf.trimToSizeByDate(size)
+            completionHandler?(cache: strongSelf)
+        }
+    }
+    
     public func removeAllObjects(completionHandler: DiskCacheBlock?) {
         async { [weak self] in
             guard let strongSelf = self else { return }
@@ -170,6 +169,52 @@ public final class Disk {
     private func unlock() {
         dispatch_semaphore_signal(semaphore)
     }
+    
+    // MARK - Private Filesystem Functions
+    
+    private func setupDiskProperties() throws {
+        let fileManager = NSFileManager.defaultManager()
+        let keys = [
+            NSURLContentModificationDateKey,
+            NSURLTotalFileAllocatedSizeKey
+        ]
+        
+        let allFiles = try fileManager.contentsOfDirectoryAtURL(state.cacheURL,
+            includingPropertiesForKeys: keys,
+            options: .SkipsHiddenFiles)
+        
+        allFiles.forEach { url in
+            let key = keyForEncodedFileURL(url)!
+            
+            guard let metaDictionary = try? url.resourceValuesForKeys(keys) else {
+                return
+            }
+            
+            if let date = metaDictionary[NSURLContentModificationDateKey] as? NSDate {
+                state.dates[key] = date
+            }
+            
+            if let fileSize = metaDictionary[NSURLTotalFileAllocatedSizeKey] as? Double where fileSize > 0 {
+                state.sizes[key] = fileSize
+                state.byteCount += fileSize
+            }
+        }
+    }
+    
+    private func setFileModificationDate(date: NSDate, forURL url: NSURL) -> Bool {
+        guard let path = url.path, key = keyForEncodedFileURL(url) else { return false }
+        do {
+            try NSFileManager.defaultManager().setAttributes([ NSFileModificationDate : date ], ofItemAtPath: path)
+        }
+        catch {
+            return false
+        }
+        
+        state.dates[key] = date
+        
+        return true
+    }
+    
 }
 
 public extension Disk {
@@ -182,13 +227,20 @@ private func DiskCacheURL(withName name: String, rootPath: String, prefix: Strin
     return NSURL.fileURLWithPathComponents([rootPath, name, prefix])
 }
 
-private func CreateCachesDirectoryAtURL(url: NSURL) -> Bool {
+private func CreateCachesDirectoryAtURL(url: NSURL) throws -> Bool {
     let fileManager = NSFileManager.defaultManager()
     guard fileManager.fileExistsAtPath(url.absoluteString) == false else {
         return false
     }
     
-    return try? fileManager.createDirectoryAtURL(url, withIntermediateDirectories: true, attributes: nil)
+    do {
+        try fileManager.createDirectoryAtURL(url, withIntermediateDirectories: true, attributes: nil)
+    }
+    catch {
+        throw DiskCacheErrors.FailedToCreateCacheDirectory
+    }
+    
+    return true
 }
 
 private struct DiskPrivateState {

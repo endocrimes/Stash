@@ -53,7 +53,7 @@ class StashTests: XCTestCase {
             // We don't actually care about failures here.
         }
         
-        sut = Stash(name: "Test", rootPath: testDirectory)
+        sut = try! Stash(name: "Test", rootPath: testDirectory)
     }
     
     override func tearDown() {
