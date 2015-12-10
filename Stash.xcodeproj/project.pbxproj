@@ -134,7 +134,8 @@
 				65EB83C31B87C7BE009D3FE4 /* MemoryTests.swift */,
 				65EB83B01B87C6DE009D3FE4 /* Info.plist */,
 			);
-			path = StashTests;
+			name = StashTests;
+			path = Tests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -404,7 +405,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 65C03CE31BA44744003AD121 /* iOS Tests.xcconfig */;
 			buildSettings = {
-				INFOPLIST_FILE = StashTests/Info.plist;
+				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = co.rocketapps.StashTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -415,7 +416,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 65C03CE31BA44744003AD121 /* iOS Tests.xcconfig */;
 			buildSettings = {
-				INFOPLIST_FILE = StashTests/Info.plist;
+				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = co.rocketapps.StashTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
