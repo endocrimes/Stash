@@ -9,7 +9,7 @@
 import Foundation
 
 public typealias MemoryCacheBlock = (cache: Memory) -> ()
-public typealias MemoryCacheObjectBlock = (cache: Memory, key: String, object: NSData?) -> ()
+public typealias MemoryCacheObjectBlock = (cache: Memory, key: String, object: NSCoding?) -> ()
 
 private struct MemoryPrivateState {
     var maximumCost: Int? = nil
@@ -59,7 +59,7 @@ public final class Memory {
     private let concurrentQueue: dispatch_queue_t = dispatch_queue_create("com.rocketapps.stash.memory.async", DISPATCH_QUEUE_CONCURRENT)
     private let semaphore: dispatch_semaphore_t = dispatch_semaphore_create(1)
     
-    private var objects: [String : NSData] = [String : NSData]()
+    private var objects: [String : NSCoding] = [String : NSCoding]()
     private var dates: [String : NSDate] = [String : NSDate]()
     private var costs: [String : Int] = [String : Int]()
     
@@ -68,7 +68,7 @@ public final class Memory {
     
     // MARK - Synchronous Methods
     
-    public func setObject(object: NSData?, forKey: String, cost: Int = 0) {
+    public func setObject(object: NSCoding?, forKey: String, cost: Int = 0) {
         guard let _ = object else {
             removeObjectForKey(forKey)
             return
@@ -92,10 +92,10 @@ public final class Memory {
         }
     }
     
-    public func objectForKey(key: String) -> NSData? {
+    public func objectForKey(key: String) -> NSCoding? {
         let now = NSDate()
         
-        var object: NSData?
+        var object: NSCoding?
         lock()
         object = objects[key]
         unlock()
@@ -185,7 +185,7 @@ public final class Memory {
         unlock()
     }
     
-    public func enumerateObjects(block: (key: String, value: NSData) -> ()) {
+    public func enumerateObjects(block: (key: String, value: NSCoding) -> ()) {
         lock()
         if let sortedKeys = (self.dates as NSDictionary).keysSortedByValueUsingSelector("compare:") as? [String] {
             for key in sortedKeys {
@@ -197,7 +197,7 @@ public final class Memory {
         unlock()
     }
     
-    subscript(index: String) -> NSData? {
+    subscript(index: String) -> NSCoding? {
         get {
             return objectForKey(index)
         }
@@ -208,7 +208,7 @@ public final class Memory {
     
     // MARK - Asynchronous Methods
     
-    public func setObject(object: NSData?, forKey: String, cost: Int = 0, completionHandler: MemoryCacheBlock?) {
+    public func setObject(object: NSCoding?, forKey: String, cost: Int = 0, completionHandler: MemoryCacheBlock?) {
         async { [weak self] in
             guard let strongSelf = self else { return }
             
@@ -253,7 +253,7 @@ public final class Memory {
         }
     }
     
-    public func enumerateObjects(block: (key: String, value: NSData) -> (), completionHandler: MemoryCacheBlock?) {
+    public func enumerateObjects(block: (key: String, value: NSCoding) -> (), completionHandler: MemoryCacheBlock?) {
         async { [weak self] in
             guard let strongSelf = self else { return }
             

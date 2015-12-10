@@ -46,7 +46,7 @@ class DiskTests: XCTestCase {
         
         sut.setObject(testData, forKey: testKey)
         
-        let object = sut.objectForKey(testKey)
+        let object = sut.objectForKey(testKey) as? NSData
         
         XCTAssertEqual(object, testData)
     }
@@ -65,7 +65,7 @@ class DiskTests: XCTestCase {
         
         sut.setObject(testObject, forKey: testKey)
         
-        let object = sut.objectForKey(testKey)
+        let object = sut.objectForKey(testKey) as? NSData
         
         XCTAssertEqual(object, testObject)
         
@@ -82,7 +82,7 @@ class DiskTests: XCTestCase {
         
         sut[testKey] = testObject
         
-        let object = sut[testKey]
+        let object = sut[testKey] as? NSData
         
         XCTAssertEqual(object, testObject)
     }
@@ -93,7 +93,7 @@ class DiskTests: XCTestCase {
         
         sut.setObject(testObject, forKey: testKey)
         
-        let object = sut.objectForKey(testKey)
+        let object = sut.objectForKey(testKey) as? NSData
         
         XCTAssertEqual(object, testObject)
         
@@ -114,7 +114,7 @@ class DiskTests: XCTestCase {
         for (key, value) in kvPairs {
             sut[key] = value
             
-            XCTAssertEqual(sut[key], value)
+            XCTAssertEqual(sut[key] as? NSData, value)
         }
         
         sut.removeAllObjects()
@@ -141,7 +141,7 @@ class DiskTests: XCTestCase {
         let readExpectation = expectationWithDescription("Read data expectation")
         
         sut.objectForKey(testKey, completionHandler: { _, _, value in
-            XCTAssertEqual(value, testData)
+            XCTAssertEqual(value as? NSData, testData)
             readExpectation.fulfill()
         })
         
@@ -166,7 +166,7 @@ class DiskTests: XCTestCase {
         
         sut.setObject(testObject, forKey: testKey)
         
-        let object = sut.objectForKey(testKey)
+        let object = sut.objectForKey(testKey) as? NSData
         
         XCTAssertEqual(object, testObject)
         
@@ -188,7 +188,7 @@ class DiskTests: XCTestCase {
         
         sut.setObject(testObject, forKey: testKey)
         
-        let object = sut.objectForKey(testKey)
+        let object = sut.objectForKey(testKey) as? NSData
         
         XCTAssertEqual(object, testObject)
         
@@ -214,7 +214,7 @@ class DiskTests: XCTestCase {
         for (key, value) in kvPairs {
             sut[key] = value
             
-            XCTAssertEqual(value, sut[key])
+            XCTAssertEqual(value, sut[key] as? NSData)
         }
         
         let removeExpectation = expectationWithDescription("Remove all objects expectation")

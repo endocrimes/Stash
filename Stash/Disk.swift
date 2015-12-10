@@ -9,7 +9,7 @@
 import Foundation
 
 public typealias DiskCacheBlock = (cache: Disk) -> ()
-public typealias DiskCacheObjectBlock = (cache: Disk, key: String, object: NSData?) -> ()
+public typealias DiskCacheObjectBlock = (cache: Disk, key: String, object: NSCoding?) -> ()
 
 public enum DiskCacheErrors : ErrorType {
     case CacheURLCreationError(String)
@@ -88,15 +88,15 @@ public final class Disk {
         return fileURL
     }
     
-    public func setObject(object: NSData?, forKey: String) {
+    public func setObject(object: NSCoding?, forKey: String) {
         if let data = object {
             let now = NSDate()
             let task = DiskBackgroundTask.start()
             
             lock()
-            guard let fileURL = encodedFileURLForKey(forKey) else { return }
+            guard let fileURL = encodedFileURLForKey(forKey), let path = fileURL.path else { return }
             
-            if data.writeToURL(fileURL, atomically: true) {
+            if NSKeyedArchiver.archiveRootObject(data, toFile: path) {
                 setFileModificationDate(now, forURL: fileURL)
                 
                 let values = try? fileURL.resourceValuesForKeys([ NSURLTotalFileAllocatedSizeKey ])
@@ -119,19 +119,13 @@ public final class Disk {
         }
     }
     
-    public func objectForKey(key: String) -> NSData? {
+    public func objectForKey(key: String) -> NSCoding? {
         let now = NSDate()
         let fileManager = NSFileManager.defaultManager()
-        var object: NSData?
+        var object: NSCoding?
         lock()
         if let fileURL = encodedFileURLForKey(key), let path = fileURL.path where fileManager.fileExistsAtPath(path) {
-            do {
-                object = try NSData(contentsOfURL: fileURL, options: .DataReadingMappedIfSafe)
-            }
-            catch {
-                let _ = try? fileManager.removeItemAtURL(fileURL)
-            }
-            
+            object = NSKeyedUnarchiver.unarchiveObjectWithFile(path) as? NSCoding
             setFileModificationDate(now, forURL: fileURL)
         }
         unlock()
@@ -198,7 +192,7 @@ public final class Disk {
         }
     }
     
-    subscript(index: String) -> NSData? {
+    subscript(index: String) -> NSCoding? {
         get {
             return objectForKey(index)
         }
@@ -209,7 +203,7 @@ public final class Disk {
     
     // MARK - Asynchronous Methods
     
-    public func setObject(object: NSData?, forKey: String, completionHandler: DiskCacheBlock?) {
+    public func setObject(object: NSCoding?, forKey: String, completionHandler: DiskCacheBlock?) {
         async { [weak self] in
             guard let strongSelf = self else { return }
             
