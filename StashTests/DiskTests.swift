@@ -26,10 +26,10 @@ class DiskTests: XCTestCase {
         let fileManager = NSFileManager.defaultManager()
 
         // We don't care about errors for these.
-        try? fileManager.removeItemAtPath(testDirectory)
-        try? fileManager.createDirectoryAtPath(testDirectory, withIntermediateDirectories: true, attributes: nil)
+        let _ = try? fileManager.removeItemAtPath(testDirectory)
+        let _ = try? fileManager.createDirectoryAtPath(testDirectory, withIntermediateDirectories: true, attributes: nil)
         
-        sut = Disk(name: "Test", rootPath: testDirectory)
+        sut = try! Disk(name: "Test", rootPath: testDirectory)
     }
     
     override func tearDown() {
