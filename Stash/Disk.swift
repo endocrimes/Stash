@@ -189,6 +189,13 @@ public final class Disk {
     }
     
     public func removeAllObjects() {
+        lock()
+        let keys = state.dates.keys
+        unlock()
+        
+        for key in keys {
+            removeObjectForKey(key)
+        }
     }
     
     subscript(index: String) -> NSData? {
