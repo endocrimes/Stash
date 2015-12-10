@@ -121,11 +121,38 @@ public final class Memory {
     }
     
     public func trimBeforeDate(date: NSDate) {
-        fatalError("Unimplemented Function")
+        lock()
+        let dates = self.dates.lazy
+        unlock()
+        
+        dates
+            .filter({ key, value -> Bool in
+                return date.compare(value) == .OrderedDescending
+            })
+            .forEach { key, value in
+                removeObjectForKey(key)
+            }
     }
     
     public func trimToCost(cost: Int) {
-        fatalError("Unimplemented Function")
+        if self.totalCost < cost {
+            return
+        }
+        
+        lock()
+        let orderedKeys = ((costs as NSDictionary).keysSortedByValueUsingSelector("compare:") as? [String])?.reverse() ?? []
+        unlock()
+        
+        var totalCost: Int = self.totalCost
+        
+        for key in orderedKeys {
+            removeObjectForKey(key)
+            
+            totalCost = self.totalCost
+            if totalCost < cost {
+                break
+            }
+        }
     }
     
     public func trimToCostByDate(cost: Int) {
@@ -134,9 +161,8 @@ public final class Memory {
             return
         }
         
-        var orderedKeys: [String]?
         lock()
-        orderedKeys = (dates as NSDictionary).keysSortedByValueUsingSelector("compare:") as? [String]
+        let orderedKeys = (dates as NSDictionary).keysSortedByValueUsingSelector("compare:") as? [String]
         unlock()
         
         guard let keys: [String] = orderedKeys else { return }
