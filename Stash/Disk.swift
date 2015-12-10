@@ -167,6 +167,25 @@ public final class Disk {
     }
     
     public func trimToSizeByDate(size: Double) {
+        var total = byteCount
+        if total <= size {
+            return
+        }
+        
+        var orderedKeys: [String]?
+        lock()
+        orderedKeys = (state.dates as NSDictionary).keysSortedByValueUsingSelector("compare:") as? [String]
+        unlock()
+        
+        guard let keys: [String] = orderedKeys else { return }
+        for key in keys {
+            removeObjectForKey(key)
+            
+            total = byteCount
+            if total <= size {
+                break
+            }
+        }
     }
     
     public func removeAllObjects() {
