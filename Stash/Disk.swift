@@ -215,6 +215,33 @@ public final class Disk {
         return true
     }
     
+    // MARK - Private Key Helpers
+    
+    private func keyForEncodedFileURL(fileURL: NSURL) -> String? {
+        guard let fileName = fileURL.lastPathComponent else {
+            return nil
+        }
+        
+        return decodedString(fileName)
+    }
+    
+    private func encodedFileURLForKey(key: String) -> NSURL? {
+        guard key.characters.count >= 0, let encodedKey = encodedString(key) else { return nil }
+        
+        return state.cacheURL.URLByAppendingPathComponent(encodedKey)
+    }
+    
+    private func decodedString(string: String) -> String? {
+        guard string.characters.count >= 0 else { return nil }
+        
+        return string.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet(charactersInString: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890%-_=+"))
+    }
+    
+    private func encodedString(string: String) -> String? {
+        guard string.characters.count >= 0 else { return nil }
+        
+        return string.stringByRemovingPercentEncoding
+    }
 }
 
 public extension Disk {
