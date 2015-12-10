@@ -11,7 +11,7 @@ import Foundation
 public typealias DiskCacheBlock = (cache: Disk) -> ()
 public typealias DiskCacheObjectBlock = (cache: Disk, key: String, object: NSData?) -> ()
 
-private enum DiskCacheErrors : ErrorType {
+public enum DiskCacheErrors : ErrorType {
     case CacheURLCreationError(String)
     case FailedToCreateCacheDirectory
 }
