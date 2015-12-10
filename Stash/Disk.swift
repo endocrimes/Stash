@@ -69,6 +69,25 @@ public final class Disk {
     
     // MARK - Synchronous Methods
     
+    public func fileURLForKey(key: String) -> NSURL? {
+        let now = NSDate()
+        var fileURL: NSURL?
+        let fileManager = NSFileManager.defaultManager()
+        
+        lock()
+        fileURL = encodedFileURLForKey(key)
+        
+        if let url = fileURL, path = url.path where fileManager.fileExistsAtPath(path) {
+            setFileModificationDate(now, forURL: url)
+        }
+        else {
+            fileURL = nil
+        }
+        unlock()
+        
+        return fileURL
+    }
+    
     public func setObject(object: NSData?, forKey: String) {
         if let _ = object {
             
