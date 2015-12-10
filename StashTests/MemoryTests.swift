@@ -38,7 +38,7 @@ class MemoryTests: XCTestCase {
         
         sut.setObject(testData, forKey: testKey)
         
-        let object = sut.objectForKey(testKey)
+        let object = sut.objectForKey(testKey) as? NSData
         
         XCTAssertEqual(testData, object)
     }
@@ -57,7 +57,7 @@ class MemoryTests: XCTestCase {
         
         sut.setObject(testObject, forKey: testKey)
         
-        let object = sut.objectForKey(testKey)
+        let object = sut.objectForKey(testKey) as? NSData
         
         XCTAssertEqual(object, testObject)
         
@@ -74,7 +74,7 @@ class MemoryTests: XCTestCase {
         
         sut[testKey] = testObject
         
-        let object = sut[testKey]
+        let object = sut[testKey] as? NSData
         
         XCTAssertEqual(testObject, object)
     }
@@ -85,7 +85,7 @@ class MemoryTests: XCTestCase {
         
         sut.setObject(testObject, forKey: testKey)
         
-        let object = sut.objectForKey(testKey)
+        let object = sut.objectForKey(testKey) as? NSData
         
         XCTAssertEqual(object, testObject)
         
@@ -128,7 +128,7 @@ class MemoryTests: XCTestCase {
         for (key, value) in kvPairs {
             sut[key] = value
             
-            XCTAssertEqual(value, sut[key])
+            XCTAssertEqual(value, sut[key] as? NSData)
         }
         
         sut.removeAllObjects()
@@ -149,7 +149,7 @@ class MemoryTests: XCTestCase {
         for (key, value) in kvPairs {
             sut[key] = value
             
-            XCTAssertEqual(value, sut[key])
+            XCTAssertEqual(value, sut[key] as? NSData)
         }
         
         let expectedCount = kvPairs.count
@@ -203,7 +203,7 @@ class MemoryTests: XCTestCase {
         let readExpectation = expectationWithDescription("Read data expectation")
         
         sut.objectForKey(testKey, completionHandler: { _, _, value in
-            XCTAssertEqual(value, testData)
+            XCTAssertEqual(value as? NSData, testData)
             readExpectation.fulfill()
         })
         
@@ -228,7 +228,7 @@ class MemoryTests: XCTestCase {
         
         sut.setObject(testObject, forKey: testKey)
         
-        let object = sut.objectForKey(testKey)
+        let object = sut.objectForKey(testKey) as? NSData
         
         XCTAssertEqual(object, testObject)
         
@@ -250,7 +250,7 @@ class MemoryTests: XCTestCase {
         
         sut.setObject(testObject, forKey: testKey)
         
-        let object = sut.objectForKey(testKey)
+        let object = sut.objectForKey(testKey) as? NSData
         
         XCTAssertEqual(object, testObject)
         
@@ -276,7 +276,7 @@ class MemoryTests: XCTestCase {
         for (key, value) in kvPairs {
             sut[key] = value
             
-            XCTAssertEqual(value, sut[key])
+            XCTAssertEqual(value, sut[key] as? NSData)
         }
         
         let removeExpectation = expectationWithDescription("Remove all objects expectation")
@@ -302,12 +302,12 @@ class MemoryTests: XCTestCase {
         for (key, value) in kvPairs {
             sut[key] = value
             
-            XCTAssertEqual(value, sut[key])
+            XCTAssertEqual(value, sut[key] as? NSData)
         }
         
         let expectedCount = kvPairs.count
         var count = 0
-        let enumeratorBlock: (String, NSData) -> () = { _ in
+        let enumeratorBlock: (String, NSCoding) -> () = { _ in
             count++
         }
         

@@ -14,9 +14,9 @@ private func dummyData(string: String) -> NSData {
 }
 
 private func VerifyObjectWasSet(object: NSData?, forKey key: String, inCache cache: Stash, file: String = __FILE__, line: UInt = __LINE__) {
-    let stashObj = cache.objectForKey(key)
-    let memoryObj = cache.memoryCache.objectForKey(key)
-    let diskObj = cache.diskCache.objectForKey(key)
+    let stashObj = cache.objectForKey(key) as? NSData
+    let memoryObj = cache.memoryCache.objectForKey(key) as? NSData
+    let diskObj = cache.diskCache.objectForKey(key) as? NSData
     
     XCTAssertEqual(stashObj, object, "Object retreived from Stash was invalid", file: file, line: line)
     XCTAssertEqual(memoryObj, object, "Object retreived from Memory was invalid", file: file, line: line)
@@ -87,7 +87,7 @@ class StashTests: XCTestCase {
         
         sut.setObject(testObject, forKey: testKey)
         
-        let object = sut.objectForKey(testKey)
+        let object = sut.objectForKey(testKey) as? NSData
         
         XCTAssertEqual(object, testObject)
         
@@ -104,7 +104,7 @@ class StashTests: XCTestCase {
         
         VerifyObjectWasSet(testObject, forKey: testKey, inCache: sut)
         
-        let object = sut[testKey]
+        let object = sut[testKey] as? NSData
         
         XCTAssertEqual(testObject, object)
     }
@@ -115,7 +115,7 @@ class StashTests: XCTestCase {
         
         sut.setObject(testObject, forKey: testKey)
         
-        let object = sut.objectForKey(testKey)
+        let object = sut.objectForKey(testKey) as? NSData
         
         XCTAssertEqual(object, testObject)
         
@@ -162,7 +162,7 @@ class StashTests: XCTestCase {
         let readExpectation = expectationWithDescription("Read data expectation")
         
         sut.objectForKey(testKey, completionHandler: { _, _, value in
-            XCTAssertEqual(value, testData)
+            XCTAssertEqual(value as? NSData, testData)
             
             readExpectation.fulfill()
         })
@@ -188,7 +188,7 @@ class StashTests: XCTestCase {
         
         sut.setObject(testObject, forKey: testKey)
         
-        let object = sut.objectForKey(testKey)
+        let object = sut.objectForKey(testKey) as? NSData
         
         XCTAssertEqual(object, testObject)
         
@@ -208,7 +208,7 @@ class StashTests: XCTestCase {
         
         sut.setObject(testObject, forKey: testKey)
         
-        let object = sut.objectForKey(testKey)
+        let object = sut.objectForKey(testKey) as? NSData
         
         XCTAssertEqual(object, testObject)
         

@@ -9,7 +9,7 @@
 import Foundation
 
 public typealias CacheBlock = (cache: Stash) -> ()
-public typealias CacheObjectBlock = (cache: Stash, key: String, object: NSData?) -> ()
+public typealias CacheObjectBlock = (cache: Stash, key: String, object: NSCoding?) -> ()
 
 /**
  * Stash is a thread safe key/value store for persisting temporary objects and
@@ -72,7 +72,7 @@ public final class Stash {
     * @param object An object to store in the cache.
     * @param key A key to associate with the object. This string will be copied.
     */
-    public func setObject(object: NSData?, forKey: String) {
+    public func setObject(object: NSCoding?, forKey: String) {
         if let _ = object {
             memoryCache[forKey] = object
             diskCache[forKey] = object
@@ -88,7 +88,7 @@ public final class Stash {
     *
     * :param: key The key associated with the object.
     */
-    public func objectForKey(key: String) -> NSData? {
+    public func objectForKey(key: String) -> NSCoding? {
         if let object = memoryCache[key] {
             return object
         }
@@ -133,7 +133,7 @@ public final class Stash {
         diskCache.removeAllObjects()
     }
     
-    subscript(index: String) -> NSData? {
+    subscript(index: String) -> NSCoding? {
         get {
             return objectForKey(index)
         }
@@ -144,7 +144,7 @@ public final class Stash {
     
     // MARK - Asynchronous Methods
     
-    public func setObject(object: NSData?, forKey: String, completionHandler: CacheBlock?) {
+    public func setObject(object: NSCoding?, forKey: String, completionHandler: CacheBlock?) {
         async { [weak self] in
             guard let strongSelf = self else { return }
             
