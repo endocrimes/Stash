@@ -145,11 +145,25 @@ public final class Disk {
         lock()
         if let fileURL = encodedFileURLForKey(key) {
             let _ = try? fileManager.removeItemAtURL(fileURL)
+            state.byteCount -= state.sizes[key] ?? 0
+            state.dates.removeValueForKey(key)
+            state.sizes.removeValueForKey(key)
         }
         unlock()
     }
     
     public func trimBeforeDate(date: NSDate) {
+        lock()
+        let dates = state.dates.lazy
+        unlock()
+        
+        dates
+            .filter({ key, value -> Bool in
+                return date.compare(value) == .OrderedDescending
+            })
+            .forEach { key, value in
+                removeObjectForKey(key)
+            }
     }
     
     public func trimToSizeByDate(size: Double) {
