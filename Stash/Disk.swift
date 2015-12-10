@@ -89,8 +89,30 @@ public final class Disk {
     }
     
     public func setObject(object: NSData?, forKey: String) {
-        if let _ = object {
+        if let data = object {
+            let now = NSDate()
+            let task = DiskBackgroundTask.start()
             
+            lock()
+            guard let fileURL = encodedFileURLForKey(forKey) else { return }
+            
+            if data.writeToURL(fileURL, atomically: true) {
+                setFileModificationDate(now, forURL: fileURL)
+                
+                let values = try? fileURL.resourceValuesForKeys([ NSURLTotalFileAllocatedSizeKey ])
+                if let diskFileSize = values?[NSURLTotalFileAllocatedSizeKey] as? Double {
+                    state.sizes[forKey] = diskFileSize
+                    state.byteCount += diskFileSize
+                }
+                
+                if let limit = state.maximumSizeInBytes where state.byteCount > limit {
+                    trimToSizeByDate(limit, completionHandler: nil)
+                }
+            }
+            
+            unlock()
+            
+            task.end()
         }
         else {
             removeObjectForKey(forKey)
@@ -98,13 +120,32 @@ public final class Disk {
     }
     
     public func objectForKey(key: String) -> NSData? {
-        return nil
+        let now = NSDate()
+        let fileManager = NSFileManager.defaultManager()
+        var object: NSData?
+        lock()
+        if let fileURL = encodedFileURLForKey(key), let path = fileURL.path where fileManager.fileExistsAtPath(path) {
+            do {
+                object = try NSData(contentsOfURL: fileURL, options: .DataReadingMappedIfSafe)
+            }
+            catch {
+                let _ = try? fileManager.removeItemAtURL(fileURL)
+            }
+            
+            setFileModificationDate(now, forURL: fileURL)
+        }
+        unlock()
+        
+        return object
     }
     
     public func removeObjectForKey(key: String) {
     }
     
     public func trimBeforeDate(date: NSDate) {
+    }
+    
+    public func trimToSizeByDate(size: Double) {
     }
     
     public func removeAllObjects() {
@@ -297,8 +338,30 @@ private struct DiskPrivateState {
     var cacheURL: NSURL!
 }
 
+#if os(ios) || os(watchos)
 private struct DiskBackgroundTask {
-    #if os(ios) || os(watchos)
-    var taskIdentifier: UIBackgroundTaskIdentifier
-    #endif
+    var taskIdentifier: UIBackgroundTaskIdentifier = UIBackgroundTaskInvalid
+    
+    static func start() -> DiskBackgroundTask {
+        var task = DiskBackgroundTask()
+        task.taskIdentifier = UIApplication.sharedApplication().beginBackgroundTaskWithExpirationHandler {
+            let taskIdentifier = task.taskIdentifier
+            task.taskIdentifier = nil
+            UIApplication.sharedApplication().endBackgroundTask(taskIdentifier)
+        }
+    
+        return task
+    }
+    
+    func end() {
+        let taskIdentifier = self.taskIdentifier
+        self.taskIdentifier = nil
+        UIApplication.sharedApplication().endBackgroundTask(taskIdentifier)
+    }
 }
+#else
+private struct DiskBackgroundTask {
+    static func start() -> DiskBackgroundTask { return DiskBackgroundTask() }
+    func end() {}
+}
+#endif
