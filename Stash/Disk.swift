@@ -140,6 +140,13 @@ public final class Disk {
     }
     
     public func removeObjectForKey(key: String) {
+        // TODO: Explore performance gains for a trash to do asynchronous deletes.
+        let fileManager = NSFileManager.defaultManager()
+        lock()
+        if let fileURL = encodedFileURLForKey(key) {
+            let _ = try? fileManager.removeItemAtURL(fileURL)
+        }
+        unlock()
     }
     
     public func trimBeforeDate(date: NSDate) {
@@ -293,7 +300,7 @@ public final class Disk {
     
     private func decodedString(string: String) -> String? {
         guard string.characters.count >= 0 else { return nil }
-        
+
         return string.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.alphanumericCharacterSet())
     }
     
