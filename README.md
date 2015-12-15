@@ -50,9 +50,3 @@ Add `pod Stash` to your Podfile, and run `pod install`
 ### Swift Package Manager
 
 Add this repository to your Package.swift, and run `swift build`
-
-## Coming Soon
-
-I need to clean up some access to iOS-based target specific API, then I'll look at
-- OS X support
-- Linux support
