@@ -73,13 +73,9 @@ public final class Stash {
     * @param key A key to associate with the object. This string will be copied.
     */
     public func setObject(object: NSCoding?, forKey: String) {
-        if let _ = object {
-            memoryCache[forKey] = object
-            diskCache[forKey] = object
-        }
-        else {
-            removeObjectForKey(forKey)
-        }
+        guard let _ = object else { removeObjectForKey(forKey); return }
+        memoryCache[forKey] = object
+        diskCache[forKey] = object
     }
     
    /**
@@ -95,9 +91,8 @@ public final class Stash {
         else if let object = diskCache[key] {
             return object
         }
-        else {
-            return nil
-        }
+        
+        return nil
     }
     
    /**

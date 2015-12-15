@@ -40,6 +40,17 @@ class DiskTests: XCTestCase {
     
     // MARK - Synchronous Tests
     
+    func test_cannot_cache_object_with_empty_key() {
+        let testData = dummyData("Hello, World")
+        let testKey = ""
+        
+        sut[testKey] = testData
+        
+        let object = sut[testKey] as? NSData
+        
+        XCTAssertEqual(object, nil)
+    }
+    
     func test_can_write_data_to_cache_sync() {
         let testData = dummyData("Hello, World")
         let testKey = "test_can_write_data_to_cache_sync"

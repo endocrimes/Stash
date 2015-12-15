@@ -94,7 +94,7 @@ public final class Disk {
             let task = DiskBackgroundTask.start()
             
             lock()
-            guard let fileURL = encodedFileURLForKey(forKey), let path = fileURL.path else { return }
+            guard let fileURL = encodedFileURLForKey(forKey), let path = fileURL.path else { unlock(); return }
             
             if NSKeyedArchiver.archiveRootObject(data, toFile: path) {
                 setFileModificationDate(now, forURL: fileURL)
@@ -327,19 +327,19 @@ public final class Disk {
     }
     
     private func encodedFileURLForKey(key: String) -> NSURL? {
-        guard key.characters.count >= 0, let encodedKey = encodedString(key) else { return nil }
+        guard !key.characters.isEmpty, let encodedKey = encodedString(key) else { return nil }
         
         return state.cacheURL.URLByAppendingPathComponent(encodedKey)
     }
     
     private func decodedString(string: String) -> String? {
-        guard string.characters.count >= 0 else { return nil }
+        guard !string.characters.isEmpty else { return nil }
 
         return string.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.alphanumericCharacterSet())
     }
     
     private func encodedString(string: String) -> String? {
-        guard string.characters.count >= 0 else { return nil }
+        guard !string.characters.isEmpty else { return nil }
         
         return string.stringByRemovingPercentEncoding
     }

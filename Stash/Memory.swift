@@ -61,9 +61,9 @@ public final class Memory {
     private let concurrentQueue: dispatch_queue_t = dispatch_queue_create("com.rocketapps.stash.memory.async", DISPATCH_QUEUE_CONCURRENT)
     private let semaphore: dispatch_semaphore_t = dispatch_semaphore_create(1)
     
-    private var objects: [String : NSCoding] = [String : NSCoding]()
-    private var dates: [String : NSDate] = [String : NSDate]()
-    private var costs: [String : Int] = [String : Int]()
+    private var objects: [String : NSCoding] = [:]
+    private var dates: [String : NSDate] = [:]
+    private var costs: [String : Int] = [:]
     private var observationToken: NSObjectProtocol?
     
     public init() {
@@ -146,12 +146,8 @@ public final class Memory {
         unlock()
         
         dates
-            .filter({ key, value -> Bool in
-                return date.compare(value) == .OrderedDescending
-            })
-            .forEach { key, value in
-                removeObjectForKey(key)
-            }
+            .filter({ date.compare($1) == .OrderedDescending })
+            .forEach { removeObjectForKey($0.0) }
     }
     
     public func trimToCost(cost: Int) {
