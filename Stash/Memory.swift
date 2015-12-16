@@ -178,7 +178,7 @@ public final class Memory {
         }
         
         lock()
-        let orderedKeys = dates.keysSortedByValues { $0.compare($1) == .OrderedDescending }
+        let orderedKeys = dates.keysSortedByValues { $0.compare($1) == .OrderedAscending }
         unlock()
         
         guard let keys: [String] = orderedKeys else { return }
@@ -203,7 +203,7 @@ public final class Memory {
     
     public func enumerateObjects(block: (key: String, value: NSCoding) -> ()) {
         lock()
-        let orderedKeys = dates.keysSortedByValues({ $0.compare($1) == .OrderedDescending })
+        let orderedKeys = dates.keysSortedByValues({ $0.compare($1) == .OrderedAscending })
         for key in orderedKeys {
             guard let value = self.objects[key] else { return }
                 

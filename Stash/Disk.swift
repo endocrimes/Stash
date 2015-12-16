@@ -167,7 +167,7 @@ public final class Disk {
         }
         
         lock()
-        let orderedKeys = state.dates.keysSortedByValues { $0.compare($1) == .OrderedDescending }
+        let orderedKeys = state.dates.keysSortedByValues { $0.compare($1) == .OrderedAscending }
         unlock()
         
         for key in orderedKeys {
