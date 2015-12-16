@@ -194,9 +194,9 @@ public final class Memory {
     
     public func removeAllObjects() {
         lock()
-        objects.removeAll()
-        dates.removeAll()
-        costs.removeAll()
+        objects = [:]
+        dates = [:]
+        costs = [:]
         state.totalCost = 0
         unlock()
     }

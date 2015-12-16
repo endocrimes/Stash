@@ -139,26 +139,36 @@ class MemoryTests: XCTestCase {
         }
     }
     
-    func test_can_enumerate_over_objects_sync() {
-        let kvPairs = [
-            "key1" : dummyData("Hi"),
-            "key2" : dummyData("Hello"),
-            "key3" : dummyData("Hello, World")
-        ]
-        
-        for (key, value) in kvPairs {
-            sut[key] = value
+    func test_can_enumerate_over_objects_sync_performance() {
+        measureBlock {
+            let kvPairs = [
+                "key1" : dummyData("Hi"),
+                "key2" : dummyData("Hello"),
+                "key3" : dummyData("Hello, World"),
+                "key4" : dummyData("Hello"),
+                "key5" : dummyData("Hello, World"),
+                "key6" : dummyData("Hello"),
+                "key7" : dummyData("Hello, World"),
+                "key8" : dummyData("Hello"),
+                "key9" : dummyData("Hello, World"),
+                "key10" : dummyData("Hello"),
+                "key11" : dummyData("Hello, World")
+            ]
             
-            XCTAssertEqual(value, sut[key] as? NSData)
+            for (key, value) in kvPairs {
+                self.sut[key] = value
+                
+                XCTAssertEqual(value, self.sut[key] as? NSData)
+            }
+            
+            let expectedCount = kvPairs.count
+            var count = 0
+            self.sut.enumerateObjects { _ in
+                count++
+            }
+            
+            XCTAssertEqual(count, expectedCount)
         }
-        
-        let expectedCount = kvPairs.count
-        var count = 0
-        sut.enumerateObjects { _ in
-            count++
-        }
-        
-        XCTAssertEqual(count, expectedCount)
     }
     
     func test_can_trim_to_cost_by_date_sync() {
