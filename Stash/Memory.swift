@@ -156,7 +156,7 @@ public final class Memory {
         }
         
         lock()
-        let orderedKeys = ((costs as NSDictionary).keysSortedByValueUsingSelector("compare:") as? [String])?.reverse() ?? []
+        let orderedKeys = costs.keysSortedByValues(>)
         unlock()
         
         var totalCost: Int = self.totalCost
@@ -178,7 +178,7 @@ public final class Memory {
         }
         
         lock()
-        let orderedKeys = (dates as NSDictionary).keysSortedByValueUsingSelector("compare:") as? [String]
+        let orderedKeys = dates.keysSortedByValues { $0.compare($1) == .OrderedDescending }
         unlock()
         
         guard let keys: [String] = orderedKeys else { return }
@@ -203,12 +203,11 @@ public final class Memory {
     
     public func enumerateObjects(block: (key: String, value: NSCoding) -> ()) {
         lock()
-        if let sortedKeys = (self.dates as NSDictionary).keysSortedByValueUsingSelector("compare:") as? [String] {
-            for key in sortedKeys {
-                guard let value = self.objects[key] else { return }
+        let orderedKeys = dates.keysSortedByValues({ $0.compare($1) == .OrderedDescending })
+        for key in orderedKeys {
+            guard let value = self.objects[key] else { return }
                 
-                block(key: key, value: value)
-            }
+            block(key: key, value: value)
         }
         unlock()
     }
