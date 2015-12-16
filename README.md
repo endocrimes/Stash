@@ -1,5 +1,7 @@
 # Stash
 
+![Travis Build Status](https://api.travis-ci.org/endocrimes/Stash.svg)
+
 Stash is a parallel object cache for Swift. It's based on [TMCache](https://github.com/Tumblr/TMCache).
 
 Stash is a key/value store for temporarily persisting objects, such as network responses (images etc), or expensive to reproduce values.
