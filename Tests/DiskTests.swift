@@ -115,6 +115,36 @@ class DiskTests: XCTestCase {
         XCTAssertNil(hopefullyNilObject)
     }
     
+    func test_can_trim_to_size_by_date_sync() {
+        struct TestObject {
+            let key: String = NSUUID().UUIDString
+            let value: NSData
+            
+            init(size: Int) {
+                let data = malloc(size)
+                value = NSData(bytes: data, length: size)
+            }
+        }
+        
+        let objects = [
+            TestObject(size: 100),
+            TestObject(size: 100),
+            TestObject(size: 100),
+            TestObject(size: 100),
+            TestObject(size: 100)
+        ]
+        
+        for object in objects {
+            sut.setObject(object.value, forKey: object.key)
+        }
+        
+        sut.trimToSizeByDate(100)
+        
+        let firstObjectKey = objects.first!.key
+        
+        XCTAssertNil(sut[firstObjectKey])
+    }
+    
     func test_can_remove_all_objects_sync() {
         let kvPairs = [
             "key1" : dummyData("Hi"),
