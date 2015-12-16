@@ -1,6 +1,6 @@
 language: objective-c
 osx_image: xcode7
 before_install:
-          - gem install xcpretty --no-rdoc --no-ri --no-document --quiet
+    - gem install xcpretty --no-rdoc --no-ri --no-document --quiet
 script:
-        - xcodebuild -project Stash.xcodeproj -scheme Stash test | xcpretty -c
+    - xcodebuild -project Stash.xcodeproj -scheme Stash-OSX test | xcpretty -c
