@@ -166,13 +166,11 @@ public final class Disk {
             return
         }
         
-        var orderedKeys: [String]?
         lock()
-        orderedKeys = (state.dates as NSDictionary).keysSortedByValueUsingSelector("compare:") as? [String]
+        let orderedKeys = state.dates.keysSortedByValues { $0.compare($1) == .OrderedDescending }
         unlock()
         
-        guard let keys: [String] = orderedKeys else { return }
-        for key in keys {
+        for key in orderedKeys {
             removeObjectForKey(key)
             
             total = byteCount

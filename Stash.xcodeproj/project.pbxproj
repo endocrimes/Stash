@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		658B2C641C20F60C0016C86A /* NSDictionaryExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658B2C631C20F60C0016C86A /* NSDictionaryExtensions.swift */; };
 		65EB83A31B87C6DE009D3FE4 /* Stash.h in Headers */ = {isa = PBXBuildFile; fileRef = 65EB83A21B87C6DE009D3FE4 /* Stash.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		65EB83AA1B87C6DE009D3FE4 /* Stash.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65EB839F1B87C6DE009D3FE4 /* Stash.framework */; };
 		65EB83AF1B87C6DE009D3FE4 /* StashTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65EB83AE1B87C6DE009D3FE4 /* StashTests.swift */; };
@@ -28,6 +29,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		658B2C631C20F60C0016C86A /* NSDictionaryExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDictionaryExtensions.swift; sourceTree = "<group>"; };
 		65C03CE01BA44744003AD121 /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		65C03CE11BA44744003AD121 /* iOS Framework.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "iOS Framework.xcconfig"; sourceTree = "<group>"; };
 		65C03CE21BA44744003AD121 /* iOS Static Library.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "iOS Static Library.xcconfig"; sourceTree = "<group>"; };
@@ -121,6 +123,7 @@
 				65EB83B91B87C6E8009D3FE4 /* Stash.swift */,
 				65EB83BD1B87C6F3009D3FE4 /* Disk.swift */,
 				65EB83BF1B87C6FF009D3FE4 /* Memory.swift */,
+				658B2C631C20F60C0016C86A /* NSDictionaryExtensions.swift */,
 				65EB83A41B87C6DE009D3FE4 /* Info.plist */,
 			);
 			path = Stash;
@@ -248,6 +251,7 @@
 			files = (
 				65EB83C01B87C6FF009D3FE4 /* Memory.swift in Sources */,
 				65EB83BE1B87C6F3009D3FE4 /* Disk.swift in Sources */,
+				658B2C641C20F60C0016C86A /* NSDictionaryExtensions.swift in Sources */,
 				65EB83BA1B87C6E8009D3FE4 /* Stash.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
