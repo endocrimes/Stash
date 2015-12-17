@@ -128,7 +128,7 @@ public final class Stash {
         diskCache.removeAllObjects()
     }
     
-    subscript(index: String) -> NSCoding? {
+    public subscript(index: String) -> NSCoding? {
         get {
             return objectForKey(index)
         }
