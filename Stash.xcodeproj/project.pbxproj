@@ -569,6 +569,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 65C03CE11BA44744003AD121 /* iOS Framework.xcconfig */;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = NO;
 				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -588,6 +589,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 65C03CE11BA44744003AD121 /* iOS Framework.xcconfig */;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = NO;
 				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -634,6 +636,7 @@
 				658B2C7C1C21B9F90016C86A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		658B2C801C21B9F90016C86A /* Build configuration list for PBXNativeTarget "Stash-OSXTests" */ = {
 			isa = XCConfigurationList;
@@ -642,6 +645,7 @@
 				658B2C7E1C21B9F90016C86A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		65EB83991B87C6DE009D3FE4 /* Build configuration list for PBXProject "Stash" */ = {
 			isa = XCConfigurationList;

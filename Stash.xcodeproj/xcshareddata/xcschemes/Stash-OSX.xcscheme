@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "658B2C691C21B9F90016C86A"
-               BuildableName = "Stash-OSX.framework"
+               BuildableName = "Stash.framework"
                BlueprintName = "Stash-OSX"
                ReferencedContainer = "container:Stash.xcodeproj">
             </BuildableReference>
@@ -43,7 +43,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "658B2C691C21B9F90016C86A"
-            BuildableName = "Stash-OSX.framework"
+            BuildableName = "Stash.framework"
             BlueprintName = "Stash-OSX"
             ReferencedContainer = "container:Stash.xcodeproj">
          </BuildableReference>
@@ -65,7 +65,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "658B2C691C21B9F90016C86A"
-            BuildableName = "Stash-OSX.framework"
+            BuildableName = "Stash.framework"
             BlueprintName = "Stash-OSX"
             ReferencedContainer = "container:Stash.xcodeproj">
          </BuildableReference>
@@ -83,7 +83,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "658B2C691C21B9F90016C86A"
-            BuildableName = "Stash-OSX.framework"
+            BuildableName = "Stash.framework"
             BlueprintName = "Stash-OSX"
             ReferencedContainer = "container:Stash.xcodeproj">
          </BuildableReference>
