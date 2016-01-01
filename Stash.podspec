@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name = "Stash"
-  s.version = "0.4.0"
+  s.version = "0.5.0"
   s.summary = "A parallel object cache for Swift 2.0"
   s.description = <<-DESC
                    Stash is a key/value store for temporarily persisting objects, such as network responses (images etc), or expensive to reproduce values.
