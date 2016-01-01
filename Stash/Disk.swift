@@ -7,6 +7,9 @@
 //
 
 import Foundation
+#if os(iOS)
+import UIKit
+#endif
 
 public typealias DiskCacheBlock = (cache: Disk) -> ()
 public typealias DiskCacheObjectBlock = (cache: Disk, key: String, object: NSCoding?) -> ()
@@ -377,7 +380,7 @@ private struct DiskPrivateState {
     var cacheURL: NSURL!
 }
 
-#if os(ios) || os(watchos)
+#if os(iOS)
 private struct DiskBackgroundTask {
     var taskIdentifier: UIBackgroundTaskIdentifier = UIBackgroundTaskInvalid
     
@@ -385,7 +388,7 @@ private struct DiskBackgroundTask {
         var task = DiskBackgroundTask()
         task.taskIdentifier = UIApplication.sharedApplication().beginBackgroundTaskWithExpirationHandler {
             let taskIdentifier = task.taskIdentifier
-            task.taskIdentifier = nil
+            task.taskIdentifier = UIBackgroundTaskInvalid
             UIApplication.sharedApplication().endBackgroundTask(taskIdentifier)
         }
     
@@ -394,7 +397,6 @@ private struct DiskBackgroundTask {
     
     func end() {
         let taskIdentifier = self.taskIdentifier
-        self.taskIdentifier = nil
         UIApplication.sharedApplication().endBackgroundTask(taskIdentifier)
     }
 }

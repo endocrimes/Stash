@@ -7,6 +7,9 @@
 //
 
 import Foundation
+#if os(iOS)
+import UIKit
+#endif
 
 public typealias MemoryCacheBlock = (cache: Memory) -> ()
 public typealias MemoryCacheObjectBlock = (cache: Memory, key: String, object: NSCoding?) -> ()
@@ -67,7 +70,7 @@ public final class Memory {
     private var observationToken: NSObjectProtocol?
     
     public init() {
-        #if os(ios)
+        #if os(iOS)
         observationToken = NSNotificationCenter.defaultCenter()
             .addObserverForName(UIApplicationDidReceiveMemoryWarningNotification,
                 object: nil,
