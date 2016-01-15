@@ -128,6 +128,9 @@ public final class Stash {
         diskCache.removeAllObjects()
     }
     
+    /**
+     * Get/Set an object for the given key using the synchronous accessor/setter.
+     */
     public subscript(index: String) -> NSCoding? {
         get {
             return objectForKey(index)
@@ -139,6 +142,13 @@ public final class Stash {
     
     // MARK - Asynchronous Methods
     
+    /**
+     * Asynchronously set an object for a given key.
+     *
+     * parameter object:            The object to store.
+     * parameter forKey:            The key to associate the object with.
+     * parameter completionHandler: An optional block to be called on save completion.
+     */
     public func setObject(object: NSCoding?, forKey: String, completionHandler: CacheBlock?) {
         async { [weak self] in
             guard let strongSelf = self else { return }
@@ -148,6 +158,12 @@ public final class Stash {
         }
     }
     
+    /**
+     * Asynchronously retreive an object for a given key.
+     *
+     * parameter key:               The key to retreive an object for.
+     * parameter completionHandler: A closure to be called on completion.
+     */
     public func objectForKey(key: String, completionHandler: CacheObjectBlock?) {
         async { [weak self] in
             guard let strongSelf = self else { return }
@@ -157,6 +173,14 @@ public final class Stash {
         }
     }
     
+    /**
+     * Asynchronously remove an object for a given key. **NOTE** Subsequent calls
+     * to synchronous accessors BEFORE the completionHandler has been called may
+     * result in the object still being retreived.
+     *
+     * parameter key:               The key to remove.
+     * parameter completionHandler: A handler to be called upon completion.
+     */
     public func removeObjectForKey(key: String, completionHandler: CacheBlock?) {
         async { [weak self] in
             guard let strongSelf = self else { return }
@@ -166,6 +190,10 @@ public final class Stash {
         }
     }
     
+    /**
+     * Asycnhronously remove all the objects added to the cache before a given
+     * NSDate.
+     */
     public func trimBeforeDate(date: NSDate, completionHandler: CacheBlock?) {
         async { [weak self] in
             guard let strongSelf = self else { return }
@@ -175,6 +203,9 @@ public final class Stash {
         }
     }
     
+    /**
+     * Asynchronously remove all objects from the cache.
+     */
     public func removeAllObjects(completionHandler: CacheBlock?) {
         async { [weak self] in
             guard let strongSelf = self else { return }
