@@ -2,7 +2,7 @@
 //  NSDictionaryExtensions.swift
 //  Stash
 //
-//  Created by  Danielle Lancashireon 16/12/2015.
+//  Created by Danielle Lancashire on 16/12/2015.
 //  Copyright © 2015 Rocket Apps. All rights reserved.
 //
 

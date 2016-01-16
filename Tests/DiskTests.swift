@@ -2,7 +2,7 @@
 //  DiskTests.swift
 //  Stash
 //
-//  Created by  Danielle Lancashireon 21/08/2015.
+//  Created by Danielle Lancashire on 21/08/2015.
 //  Copyright © 2015 Rocket Apps. All rights reserved.
 //
 
@@ -85,6 +85,17 @@ class DiskTests: XCTestCase {
         let hopefullyNilObject = sut.objectForKey(testKey)
         
         XCTAssertNil(hopefullyNilObject)
+    }
+    
+    func test_remove_object_for_unset_key_sync() {
+        let notPresentKey = "test_remove_object_for_unset_key_sync"
+        let storeKey = "test_remove_object_for_unset_key_sync2"
+        let testObject = dummyData("Hi")
+        sut.setObject(testObject, forKey: storeKey)
+        
+        let count = sut.byteCount
+        sut.removeObjectForKey(notPresentKey)
+        XCTAssertEqual(sut.byteCount, count)
     }
     
     func test_can_read_and_write_data_using_subscript() {
