@@ -87,6 +87,17 @@ class DiskTests: XCTestCase {
         XCTAssertNil(hopefullyNilObject)
     }
     
+    func test_remove_object_for_unset_key_sync() {
+        let notPresentKey = "test_remove_object_for_unset_key_sync"
+        let storeKey = "test_remove_object_for_unset_key_sync2"
+        let testObject = dummyData("Hi")
+        sut.setObject(testObject, forKey: storeKey)
+        
+        let count = sut.byteCount
+        sut.removeObjectForKey(notPresentKey)
+        XCTAssertEqual(sut.byteCount, count)
+    }
+    
     func test_can_read_and_write_data_using_subscript() {
         let testKey = "test_can_read_and_write_data_using_subscript"
         let testObject = dummyData("Hello!")
