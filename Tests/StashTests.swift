@@ -2,7 +2,7 @@
 //  StashTests.swift
 //  StashTests
 //
-//  Created by  Danielle Lancashireon 21/08/2015.
+//  Created by Danielle Lancashire on 21/08/2015.
 //  Copyright © 2015 Rocket Apps. All rights reserved.
 //
 
